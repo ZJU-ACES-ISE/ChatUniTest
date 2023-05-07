@@ -1,0 +1,6 @@
+.idea/
+src/data/
+dataset/
+projects/
+result/
+**/__pycache__/
