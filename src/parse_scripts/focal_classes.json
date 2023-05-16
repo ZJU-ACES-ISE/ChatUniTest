@@ -1,0 +1,998 @@
+[
+    {
+        "project": "Csv_1_f",
+        "classes": [
+            "org.apache.commons.csv.ExtendedBufferedReader\n"
+        ]
+    },
+    {
+        "project": "Csv_2_f",
+        "classes": [
+            "org.apache.commons.csv.CSVRecord\n"
+        ]
+    },
+    {
+        "project": "Csv_3_f",
+        "classes": [
+            "org.apache.commons.csv.Lexer\n"
+        ]
+    },
+    {
+        "project": "Csv_4_f",
+        "classes": [
+            "org.apache.commons.csv.CSVParser\n"
+        ]
+    },
+    {
+        "project": "Csv_5_f",
+        "classes": [
+            "org.apache.commons.csv.CSVPrinter\n"
+        ]
+    },
+    {
+        "project": "Csv_6_f",
+        "classes": [
+            "org.apache.commons.csv.CSVRecord\n"
+        ]
+    },
+    {
+        "project": "Csv_7_f",
+        "classes": [
+            "org.apache.commons.csv.CSVParser\n"
+        ]
+    },
+    {
+        "project": "Csv_8_f",
+        "classes": [
+            "org.apache.commons.csv.CSVFormat\n"
+        ]
+    },
+    {
+        "project": "Csv_9_f",
+        "classes": [
+            "org.apache.commons.csv.CSVRecord\n"
+        ]
+    },
+    {
+        "project": "Csv_10_f",
+        "classes": [
+            "org.apache.commons.csv.CSVPrinter\n"
+        ]
+    },
+    {
+        "project": "Csv_11_f",
+        "classes": [
+            "org.apache.commons.csv.CSVParser\n"
+        ]
+    },
+    {
+        "project": "Csv_12_f",
+        "classes": [
+            "org.apache.commons.csv.CSVFormat\n"
+        ]
+    },
+    {
+        "project": "Csv_13_f",
+        "classes": [
+            "org.apache.commons.csv.CSVFormat",
+            "org.apache.commons.csv.CSVPrinter\n"
+        ]
+    },
+    {
+        "project": "Csv_14_f",
+        "classes": [
+            "org.apache.commons.csv.CSVFormat\n"
+        ]
+    },
+    {
+        "project": "Csv_15_f",
+        "classes": [
+            "org.apache.commons.csv.CSVFormat\n"
+        ]
+    },
+    {
+        "project": "Csv_16_f",
+        "classes": [
+            "org.apache.commons.csv.CSVParser\n"
+        ]
+    },
+    {
+        "project": "Cli_1_f",
+        "classes": [
+            "org.apache.commons.cli.CommandLine\n"
+        ]
+    },
+    {
+        "project": "Cli_2_f",
+        "classes": [
+            "org.apache.commons.cli.PosixParser\n"
+        ]
+    },
+    {
+        "project": "Cli_3_f",
+        "classes": [
+            "org.apache.commons.cli.TypeHandler\n"
+        ]
+    },
+    {
+        "project": "Cli_4_f",
+        "classes": [
+            "org.apache.commons.cli.Parser\n"
+        ]
+    },
+    {
+        "project": "Cli_5_f",
+        "classes": [
+            "org.apache.commons.cli.Util\n"
+        ]
+    },
+    {
+        "project": "Cli_7_f",
+        "classes": [
+            "org.apache.commons.cli2.builder.PatternBuilder\n"
+        ]
+    },
+    {
+        "project": "Cli_8_f",
+        "classes": [
+            "org.apache.commons.cli.HelpFormatter\n"
+        ]
+    },
+    {
+        "project": "Cli_9_f",
+        "classes": [
+            "org.apache.commons.cli.Parser\n"
+        ]
+    },
+    {
+        "project": "Cli_10_f",
+        "classes": [
+            "org.apache.commons.cli.Parser\n"
+        ]
+    },
+    {
+        "project": "Cli_11_f",
+        "classes": [
+            "org.apache.commons.cli.HelpFormatter\n"
+        ]
+    },
+    {
+        "project": "Cli_12_f",
+        "classes": [
+            "org.apache.commons.cli.GnuParser\n"
+        ]
+    },
+    {
+        "project": "Cli_13_f",
+        "classes": [
+            "org.apache.commons.cli2.WriteableCommandLine",
+            "org.apache.commons.cli2.commandline.WriteableCommandLineImpl",
+            "org.apache.commons.cli2.option.ArgumentImpl\n"
+        ]
+    },
+    {
+        "project": "Cli_14_f",
+        "classes": [
+            "org.apache.commons.cli2.option.GroupImpl\n"
+        ]
+    },
+    {
+        "project": "Cli_15_f",
+        "classes": [
+            "org.apache.commons.cli2.commandline.WriteableCommandLineImpl\n"
+        ]
+    },
+    {
+        "project": "Cli_16_f",
+        "classes": [
+            "org.apache.commons.cli2.Option",
+            "org.apache.commons.cli2.commandline.WriteableCommandLineImpl",
+            "org.apache.commons.cli2.option.GroupImpl",
+            "org.apache.commons.cli2.option.OptionImpl\n"
+        ]
+    },
+    {
+        "project": "Cli_17_f",
+        "classes": [
+            "org.apache.commons.cli.PosixParser\n"
+        ]
+    },
+    {
+        "project": "Cli_18_f",
+        "classes": [
+            "org.apache.commons.cli.PosixParser\n"
+        ]
+    },
+    {
+        "project": "Cli_19_f",
+        "classes": [
+            "org.apache.commons.cli.PosixParser\n"
+        ]
+    },
+    {
+        "project": "Cli_20_f",
+        "classes": [
+            "org.apache.commons.cli.PosixParser\n"
+        ]
+    },
+    {
+        "project": "Cli_21_f",
+        "classes": [
+            "org.apache.commons.cli2.WriteableCommandLine",
+            "org.apache.commons.cli2.commandline.WriteableCommandLineImpl",
+            "org.apache.commons.cli2.option.GroupImpl\n"
+        ]
+    },
+    {
+        "project": "Cli_22_f",
+        "classes": [
+            "org.apache.commons.cli.PosixParser\n"
+        ]
+    },
+    {
+        "project": "Cli_23_f",
+        "classes": [
+            "org.apache.commons.cli.HelpFormatter\n"
+        ]
+    },
+    {
+        "project": "Cli_24_f",
+        "classes": [
+            "org.apache.commons.cli.HelpFormatter\n"
+        ]
+    },
+    {
+        "project": "Cli_25_f",
+        "classes": [
+            "org.apache.commons.cli.HelpFormatter\n"
+        ]
+    },
+    {
+        "project": "Cli_26_f",
+        "classes": [
+            "org.apache.commons.cli.OptionBuilder\n"
+        ]
+    },
+    {
+        "project": "Cli_27_f",
+        "classes": [
+            "org.apache.commons.cli.OptionGroup\n"
+        ]
+    },
+    {
+        "project": "Cli_28_f",
+        "classes": [
+            "org.apache.commons.cli.Parser\n"
+        ]
+    },
+    {
+        "project": "Cli_29_f",
+        "classes": [
+            "org.apache.commons.cli.Util\n"
+        ]
+    },
+    {
+        "project": "Cli_30_f",
+        "classes": [
+            "org.apache.commons.cli.DefaultParser",
+            "org.apache.commons.cli.Parser\n"
+        ]
+    },
+    {
+        "project": "Cli_31_f",
+        "classes": [
+            "org.apache.commons.cli.HelpFormatter",
+            "org.apache.commons.cli.Option",
+            "org.apache.commons.cli.OptionBuilder\n"
+        ]
+    },
+    {
+        "project": "Cli_32_f",
+        "classes": [
+            "org.apache.commons.cli.HelpFormatter\n"
+        ]
+    },
+    {
+        "project": "Cli_33_f",
+        "classes": [
+            "org.apache.commons.cli.HelpFormatter\n"
+        ]
+    },
+    {
+        "project": "Cli_34_f",
+        "classes": [
+            "org.apache.commons.cli.Option",
+            "org.apache.commons.cli.OptionBuilder\n"
+        ]
+    },
+    {
+        "project": "Cli_35_f",
+        "classes": [
+            "org.apache.commons.cli.Options\n"
+        ]
+    },
+    {
+        "project": "Cli_36_f",
+        "classes": [
+            "org.apache.commons.cli.OptionGroup",
+            "org.apache.commons.cli.Options\n"
+        ]
+    },
+    {
+        "project": "Cli_37_f",
+        "classes": [
+            "org.apache.commons.cli.DefaultParser\n"
+        ]
+    },
+    {
+        "project": "Cli_38_f",
+        "classes": [
+            "org.apache.commons.cli.DefaultParser\n"
+        ]
+    },
+    {
+        "project": "Cli_39_f",
+        "classes": [
+            "org.apache.commons.cli.TypeHandler\n"
+        ]
+    },
+    {
+        "project": "Cli_40_f",
+        "classes": [
+            "org.apache.commons.cli.TypeHandler\n"
+        ]
+    },
+    {
+        "project": "Lang_1_f",
+        "classes": [
+            "org.apache.commons.lang3.math.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_3_f",
+        "classes": [
+            "org.apache.commons.lang3.math.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_4_f",
+        "classes": [
+            "org.apache.commons.lang3.text.translate.LookupTranslator\n"
+        ]
+    },
+    {
+        "project": "Lang_5_f",
+        "classes": [
+            "org.apache.commons.lang3.LocaleUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_6_f",
+        "classes": [
+            "org.apache.commons.lang3.text.translate.CharSequenceTranslator\n"
+        ]
+    },
+    {
+        "project": "Lang_7_f",
+        "classes": [
+            "org.apache.commons.lang3.math.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_8_f",
+        "classes": [
+            "org.apache.commons.lang3.time.FastDatePrinter\n"
+        ]
+    },
+    {
+        "project": "Lang_9_f",
+        "classes": [
+            "org.apache.commons.lang3.time.FastDateParser\n"
+        ]
+    },
+    {
+        "project": "Lang_10_f",
+        "classes": [
+            "org.apache.commons.lang3.time.FastDateParser\n"
+        ]
+    },
+    {
+        "project": "Lang_11_f",
+        "classes": [
+            "org.apache.commons.lang3.RandomStringUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_12_f",
+        "classes": [
+            "org.apache.commons.lang3.RandomStringUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_13_f",
+        "classes": [
+            "org.apache.commons.lang3.SerializationUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_14_f",
+        "classes": [
+            "org.apache.commons.lang3.StringUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_15_f",
+        "classes": [
+            "org.apache.commons.lang3.reflect.TypeUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_16_f",
+        "classes": [
+            "org.apache.commons.lang3.math.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_17_f",
+        "classes": [
+            "org.apache.commons.lang3.text.translate.CharSequenceTranslator\n"
+        ]
+    },
+    {
+        "project": "Lang_18_f",
+        "classes": [
+            "org.apache.commons.lang3.time.FastDateFormat\n"
+        ]
+    },
+    {
+        "project": "Lang_19_f",
+        "classes": [
+            "org.apache.commons.lang3.text.translate.NumericEntityUnescaper\n"
+        ]
+    },
+    {
+        "project": "Lang_20_f",
+        "classes": [
+            "org.apache.commons.lang3.StringUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_21_f",
+        "classes": [
+            "org.apache.commons.lang3.time.DateUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_22_f",
+        "classes": [
+            "org.apache.commons.lang3.math.Fraction\n"
+        ]
+    },
+    {
+        "project": "Lang_23_f",
+        "classes": [
+            "org.apache.commons.lang3.text.ExtendedMessageFormat\n"
+        ]
+    },
+    {
+        "project": "Lang_24_f",
+        "classes": [
+            "org.apache.commons.lang3.math.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_25_f",
+        "classes": [
+            "org.apache.commons.lang3.text.translate.EntityArrays\n"
+        ]
+    },
+    {
+        "project": "Lang_26_f",
+        "classes": [
+            "org.apache.commons.lang3.time.FastDateFormat\n"
+        ]
+    },
+    {
+        "project": "Lang_27_f",
+        "classes": [
+            "org.apache.commons.lang3.math.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_28_f",
+        "classes": [
+            "org.apache.commons.lang3.text.translate.NumericEntityUnescaper\n"
+        ]
+    },
+    {
+        "project": "Lang_29_f",
+        "classes": [
+            "org.apache.commons.lang3.SystemUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_30_f",
+        "classes": [
+            "org.apache.commons.lang3.StringUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_31_f",
+        "classes": [
+            "org.apache.commons.lang3.StringUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_32_f",
+        "classes": [
+            "org.apache.commons.lang3.builder.HashCodeBuilder\n"
+        ]
+    },
+    {
+        "project": "Lang_33_f",
+        "classes": [
+            "org.apache.commons.lang3.ClassUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_34_f",
+        "classes": [
+            "org.apache.commons.lang3.builder.ToStringStyle\n"
+        ]
+    },
+    {
+        "project": "Lang_35_f",
+        "classes": [
+            "org.apache.commons.lang3.ArrayUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_36_f",
+        "classes": [
+            "org.apache.commons.lang3.math.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_37_f",
+        "classes": [
+            "org.apache.commons.lang3.ArrayUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_38_f",
+        "classes": [
+            "org.apache.commons.lang3.time.FastDateFormat\n"
+        ]
+    },
+    {
+        "project": "Lang_39_f",
+        "classes": [
+            "org.apache.commons.lang3.StringUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_40_f",
+        "classes": [
+            "org.apache.commons.lang.StringUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_41_f",
+        "classes": [
+            "org.apache.commons.lang.ClassUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_42_f",
+        "classes": [
+            "org.apache.commons.lang.Entities\n"
+        ]
+    },
+    {
+        "project": "Lang_43_f",
+        "classes": [
+            "org.apache.commons.lang.text.ExtendedMessageFormat\n"
+        ]
+    },
+    {
+        "project": "Lang_44_f",
+        "classes": [
+            "org.apache.commons.lang.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_45_f",
+        "classes": [
+            "org.apache.commons.lang.WordUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_46_f",
+        "classes": [
+            "org.apache.commons.lang.StringEscapeUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_47_f",
+        "classes": [
+            "org.apache.commons.lang.text.StrBuilder\n"
+        ]
+    },
+    {
+        "project": "Lang_48_f",
+        "classes": [
+            "org.apache.commons.lang.builder.EqualsBuilder\n"
+        ]
+    },
+    {
+        "project": "Lang_49_f",
+        "classes": [
+            "org.apache.commons.lang.math.Fraction\n"
+        ]
+    },
+    {
+        "project": "Lang_50_f",
+        "classes": [
+            "org.apache.commons.lang.time.FastDateFormat\n"
+        ]
+    },
+    {
+        "project": "Lang_51_f",
+        "classes": [
+            "org.apache.commons.lang.BooleanUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_52_f",
+        "classes": [
+            "org.apache.commons.lang.StringEscapeUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_53_f",
+        "classes": [
+            "org.apache.commons.lang.time.DateUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_54_f",
+        "classes": [
+            "org.apache.commons.lang.LocaleUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_55_f",
+        "classes": [
+            "org.apache.commons.lang.time.StopWatch\n"
+        ]
+    },
+    {
+        "project": "Lang_56_f",
+        "classes": [
+            "org.apache.commons.lang.time.FastDateFormat\n"
+        ]
+    },
+    {
+        "project": "Lang_57_f",
+        "classes": [
+            "org.apache.commons.lang.LocaleUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_58_f",
+        "classes": [
+            "org.apache.commons.lang.math.NumberUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_59_f",
+        "classes": [
+            "org.apache.commons.lang.text.StrBuilder\n"
+        ]
+    },
+    {
+        "project": "Lang_60_f",
+        "classes": [
+            "org.apache.commons.lang.text.StrBuilder\n"
+        ]
+    },
+    {
+        "project": "Lang_61_f",
+        "classes": [
+            "org.apache.commons.lang.text.StrBuilder\n"
+        ]
+    },
+    {
+        "project": "Lang_62_f",
+        "classes": [
+            "org.apache.commons.lang.Entities\n"
+        ]
+    },
+    {
+        "project": "Lang_63_f",
+        "classes": [
+            "org.apache.commons.lang.time.DurationFormatUtils\n"
+        ]
+    },
+    {
+        "project": "Lang_64_f",
+        "classes": [
+            "org.apache.commons.lang.enums.ValuedEnum\n"
+        ]
+    },
+    {
+        "project": "Lang_65_f",
+        "classes": [
+            "org.apache.commons.lang.time.DateUtils\n"
+        ]
+    },
+    {
+        "project": "Chart_1_f",
+        "classes": [
+            "org.jfree.chart.renderer.category.AbstractCategoryItemRenderer\n"
+        ]
+    },
+    {
+        "project": "Chart_2_f",
+        "classes": [
+            "org.jfree.data.general.DatasetUtilities\n"
+        ]
+    },
+    {
+        "project": "Chart_3_f",
+        "classes": [
+            "org.jfree.data.time.TimeSeries\n"
+        ]
+    },
+    {
+        "project": "Chart_4_f",
+        "classes": [
+            "org.jfree.chart.plot.XYPlot\n"
+        ]
+    },
+    {
+        "project": "Chart_5_f",
+        "classes": [
+            "org.jfree.data.xy.XYSeries\n"
+        ]
+    },
+    {
+        "project": "Chart_6_f",
+        "classes": [
+            "org.jfree.chart.util.ShapeList\n"
+        ]
+    },
+    {
+        "project": "Chart_7_f",
+        "classes": [
+            "org.jfree.data.time.TimePeriodValues\n"
+        ]
+    },
+    {
+        "project": "Chart_8_f",
+        "classes": [
+            "org.jfree.data.time.Week\n"
+        ]
+    },
+    {
+        "project": "Chart_9_f",
+        "classes": [
+            "org.jfree.data.time.TimeSeries\n"
+        ]
+    },
+    {
+        "project": "Chart_10_f",
+        "classes": [
+            "org.jfree.chart.imagemap.StandardToolTipTagFragmentGenerator\n"
+        ]
+    },
+    {
+        "project": "Chart_11_f",
+        "classes": [
+            "org.jfree.chart.util.ShapeUtilities\n"
+        ]
+    },
+    {
+        "project": "Chart_12_f",
+        "classes": [
+            "org.jfree.chart.plot.MultiplePiePlot\n"
+        ]
+    },
+    {
+        "project": "Chart_13_f",
+        "classes": [
+            "org.jfree.chart.block.BorderArrangement\n"
+        ]
+    },
+    {
+        "project": "Chart_14_f",
+        "classes": [
+            "org.jfree.chart.plot.CategoryPlot",
+            "org.jfree.chart.plot.XYPlot\n"
+        ]
+    },
+    {
+        "project": "Chart_15_f",
+        "classes": [
+            "org.jfree.chart.plot.PiePlot\n"
+        ]
+    },
+    {
+        "project": "Chart_16_f",
+        "classes": [
+            "org.jfree.data.category.DefaultIntervalCategoryDataset\n"
+        ]
+    },
+    {
+        "project": "Chart_17_f",
+        "classes": [
+            "org.jfree.data.time.TimeSeries\n"
+        ]
+    },
+    {
+        "project": "Chart_18_f",
+        "classes": [
+            "org.jfree.data.DefaultKeyedValues",
+            "org.jfree.data.DefaultKeyedValues2D\n"
+        ]
+    },
+    {
+        "project": "Chart_19_f",
+        "classes": [
+            "org.jfree.chart.plot.CategoryPlot\n"
+        ]
+    },
+    {
+        "project": "Chart_20_f",
+        "classes": [
+            "org.jfree.chart.plot.ValueMarker\n"
+        ]
+    },
+    {
+        "project": "Chart_21_f",
+        "classes": [
+            "org.jfree.data.statistics.DefaultBoxAndWhiskerCategoryDataset\n"
+        ]
+    },
+    {
+        "project": "Chart_22_f",
+        "classes": [
+            "org.jfree.data.KeyedObjects2D\n"
+        ]
+    },
+    {
+        "project": "Chart_23_f",
+        "classes": [
+            "org.jfree.chart.renderer.category.MinMaxCategoryRenderer\n"
+        ]
+    },
+    {
+        "project": "Chart_24_f",
+        "classes": [
+            "org.jfree.chart.renderer.GrayPaintScale\n"
+        ]
+    },
+    {
+        "project": "Chart_25_f",
+        "classes": [
+            "org.jfree.chart.renderer.category.StatisticalBarRenderer\n"
+        ]
+    },
+    {
+        "project": "Chart_26_f",
+        "classes": [
+            "org.jfree.chart.axis.Axis\n"
+        ]
+    },
+    {
+        "project": "Gson_1_f",
+        "classes": [
+            "com.google.gson.TypeInfoFactory\n"
+        ]
+    },
+    {
+        "project": "Gson_2_f",
+        "classes": [
+            "com.google.gson.internal.bind.TypeAdapters\n"
+        ]
+    },
+    {
+        "project": "Gson_3_f",
+        "classes": [
+            "com.google.gson.internal.ConstructorConstructor\n"
+        ]
+    },
+    {
+        "project": "Gson_4_f",
+        "classes": [
+            "com.google.gson.stream.JsonReader",
+            "com.google.gson.stream.JsonWriter\n"
+        ]
+    },
+    {
+        "project": "Gson_5_f",
+        "classes": [
+            "com.google.gson.internal.bind.util.ISO8601Utils\n"
+        ]
+    },
+    {
+        "project": "Gson_6_f",
+        "classes": [
+            "com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory\n"
+        ]
+    },
+    {
+        "project": "Gson_7_f",
+        "classes": [
+            "com.google.gson.stream.JsonReader\n"
+        ]
+    },
+    {
+        "project": "Gson_8_f",
+        "classes": [
+            "com.google.gson.internal.UnsafeAllocator\n"
+        ]
+    },
+    {
+        "project": "Gson_9_f",
+        "classes": [
+            "com.google.gson.internal.bind.JsonTreeWriter",
+            "com.google.gson.internal.bind.TypeAdapters",
+            "com.google.gson.stream.JsonWriter\n"
+        ]
+    },
+    {
+        "project": "Gson_10_f",
+        "classes": [
+            "com.google.gson.internal.bind.ReflectiveTypeAdapterFactory\n"
+        ]
+    },
+    {
+        "project": "Gson_11_f",
+        "classes": [
+            "com.google.gson.internal.bind.TypeAdapters\n"
+        ]
+    },
+    {
+        "project": "Gson_12_f",
+        "classes": [
+            "com.google.gson.internal.bind.JsonTreeReader\n"
+        ]
+    },
+    {
+        "project": "Gson_13_f",
+        "classes": [
+            "com.google.gson.stream.JsonReader\n"
+        ]
+    },
+    {
+        "project": "Gson_14_f",
+        "classes": [
+            "com.google.gson.internal.$Gson$Types\n"
+        ]
+    },
+    {
+        "project": "Gson_15_f",
+        "classes": [
+            "com.google.gson.stream.JsonWriter\n"
+        ]
+    },
+    {
+        "project": "Gson_16_f",
+        "classes": [
+            "com.google.gson.internal.$Gson$Types\n"
+        ]
+    },
+    {
+        "project": "Gson_17_f",
+        "classes": [
+            "com.google.gson.DefaultDateTypeAdapter\n"
+        ]
+    },
+    {
+        "project": "Gson_18_f",
+        "classes": [
+            "com.google.gson.internal.$Gson$Types\n"
+        ]
+    }
+]

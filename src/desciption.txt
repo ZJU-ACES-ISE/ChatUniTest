@@ -1,0 +1,30 @@
+# Document
+
+## Run Test
+
+### run_tests.py
+Main script to start various test tasks.
+
+### run_test_case/run_test_cases.py
+Script for running tests (using Cobertura by default).
+
+### run_test_case/run_test_cases_jacoco.py
+Script for running tests using JaCoCo.
+
+### run_test_case/copy_tests
+Copy the test cases of the given project to the target path for the all-test task.
+
+### run_test_case/make_dependency.py
+Generate runtime dependencies for the given project.
+
+### run_test_case/make_class_list.py
+Script for creating a class list with fully-qualified names for each project.
+
+## Class Parser
+
+### ClassParser.py
+The class parser.
+
+### extract_classes_info.py
+Extract the target project, for each class of it, use ClassParser to extract class information.
+

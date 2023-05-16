@@ -1,0 +1,13 @@
+config/config_mac.ini
+config/config.ini
+src/parse.py
+src/data/
+src/test.py
+src/test_api_key.py
+projects/
+dataset/
+information/
+venv/
+result/
+sync.sh
+setup.py

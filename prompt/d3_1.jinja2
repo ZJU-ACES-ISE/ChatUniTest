@@ -1,0 +1,6 @@
+The focal method is `{{ focal_method }}` in the class `{{ class_name }}`, and the class information is ```{{ full_fm }}```.
+{% for key, value in c_deps.items() %}
+    The brief information of dependent class {{ key }} in constructor is ```{{ value }}```.
+{% endfor %}{% for key, value in m_deps.items() %}
+    The brief information of dependent class {{ key }} in the focal method is ```{{ value }}```.
+{% endfor %}
