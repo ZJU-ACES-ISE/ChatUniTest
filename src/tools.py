@@ -6,6 +6,7 @@ import json
 import psutil
 import re
 import tiktoken
+import datetime
 
 enc = tiktoken.get_encoding("cl100k_base")
 encoding = tiktoken.encoding_for_model("gpt-3.5-turbo")
@@ -231,10 +232,10 @@ def add_timeout(test_case, timeout=8000):
     # check junit version
     junit4 = 'import org.junit.Test'
     junit5 = 'import org.junit.jupiter.api.Test'
-    if junit4 in test_case: # Junit 4
+    if junit4 in test_case:  # Junit 4
         test_case = test_case.replace('@Test(', f'@Test(timeout = {timeout}, ')
         return test_case.replace('@Test\n', f'@Test(timeout = {timeout})\n')
-    elif junit5 in test_case: # Junit 5
+    elif junit5 in test_case:  # Junit 5
         timeOutImport = 'import org.junit.jupiter.api.Timeout;'
         test_case = repair_imports(test_case, timeOutImport)
         return test_case.replace('@Test\n', f'@Test\n    @Timeout({timeout})\n')
@@ -263,3 +264,13 @@ def change_class_name(test_case, class_name, m_id, test_num):
     old_name = class_name + 'Test'
     new_name = class_name + '_' + str(m_id) + '_' + str(test_num) + 'Test'
     return test_case.replace(old_name, new_name, 1)
+
+
+def get_current_time():
+    """
+    Get current time
+    :return:
+    """
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%H:%M:%S")
+    return formatted_time

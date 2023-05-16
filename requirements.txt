@@ -24,4 +24,5 @@ tqdm==4.65.0
 tree-sitter==0.20.1
 urllib3==1.26.15
 yarl==1.9.1
-psutil
+psutil~=5.9.5
+tiktoken~=0.3.3

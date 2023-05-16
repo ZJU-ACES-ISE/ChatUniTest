@@ -4,15 +4,8 @@ It will automatically create a new folder inside dataset as well as result folde
 The folder format is "scope_test_YYYYMMDDHHMMSS_Direction".
 The dataset folder will contain all the information in the direction.
 """
-import os
-import datetime
-import re
-import subprocess
-import time
-
-from config import *
 from tools import *
-from askGPT import start_generation, start_whole_process, extract_and_run
+from askGPT import start_generation, start_whole_process
 from database import database
 from parse_xml import result_analysis
 from Task import Task
@@ -153,8 +146,9 @@ def start_scope_test_repair(sql_query: str, threaded=True, repair=True, confirme
     if not isinstance(method_ids[0], str):
         method_ids = [str(i) for i in method_ids]
     print("You are about to start the whole process of scope test.")
-    print("The following methods will be tested: " + str(method_ids) + ".")
-    print("The approximate cost will be" + Fore.RED + "$", len(method_ids) * 0.0027 * test_number, ".", Style.RESET_ALL)
+    # print("The following methods will be tested: " + str(method_ids) + ".")
+    print("The number of methods is ", len(method_ids) + ".")
+    print("The approximate cost will be" + Fore.RED + "$", len(method_ids) * 0.11 * test_number, ".", Style.RESET_ALL)
     record = "This is a record of a scope test.\n"
     if not confirmed:
         confirm = input("Are you sure to start the scope test? (y/n): ")

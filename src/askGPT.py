@@ -1,13 +1,7 @@
 import copy
-import json
 import os.path
-import datetime
-import re
-import shutil
 import time
-
 import openai
-from config import *
 from tools import *
 import random
 import concurrent.futures
@@ -17,34 +11,8 @@ from colorama import Fore, Style, init
 from Task import Task
 
 init()
-
 # Create a jinja2 environment
 env = jinja2.Environment(loader=jinja2.FileSystemLoader('../prompt'))
-
-# TODO: general projects
-template_names = {
-    "no_deps": "d1_4.jinja2",
-    "with_deps": "d3_4.jinja2",
-    "error": "error_3.jinja2",
-}
-# TODO: d4j projects, checkout java version to 11
-# template_names = {
-#     "no_deps": "d1_6.jinja2",
-#     "with_deps": "d3_6.jinja2",
-#     "error": "error_4.jinja2",
-#     "process_error": "process_error.jinja2",
-# }
-
-
-def get_current_time():
-    """
-    Get current time
-    :return:
-    """
-    current_time = datetime.datetime.now()
-    formatted_time = current_time.strftime("%H:%M:%S")
-    return formatted_time
-
 
 def ask_chatgpt_thread(idx, messages, save_path):
     """
@@ -480,19 +448,19 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                 # Required, cannot truncate
 
                 # Adaptive generate error message
-                messages = generate_messages(template_names["error"], context)
+                messages = generate_messages(TEMPLATE_ERROR, context)
                 allow_tokens = remain_prompt_tokens(messages)
                 if allow_tokens < MIN_ERROR_TOKENS:
                     context["method_code"] = _remove_imports_context(context["method_code"])
-                    messages = generate_messages(template_names["error"], context)
+                    messages = generate_messages(TEMPLATE_ERROR, context)
                     allow_tokens = remain_prompt_tokens(messages)
                 if allow_tokens < MIN_ERROR_TOKENS:
                     context["method_code"] = context_d_3["full_fm"]
-                    messages = generate_messages(template_names["error"], context)
+                    messages = generate_messages(TEMPLATE_ERROR, context)
                     allow_tokens = remain_prompt_tokens(messages)
                 if allow_tokens < MIN_ERROR_TOKENS:
                     context["method_code"] = _remove_imports_context(context_d_3["full_fm"])
-                    messages = generate_messages(template_names["error"], context)
+                    messages = generate_messages(TEMPLATE_ERROR, context)
                     allow_tokens = remain_prompt_tokens(messages)
                 if allow_tokens >= MIN_ERROR_TOKENS:
                     if "compile_error" in last_round_result:
@@ -509,34 +477,34 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                 if "compile_error" not in last_round_result and "runtime_error" not in last_round_result:
                     print(progress, Fore.RED + method_id, "Timeout error, test fatal error...", Style.RESET_ALL)
                     break
-                messages = generate_messages(template_names["error"], context)
+                messages = generate_messages(TEMPLATE_ERROR, context)
                 # print('-------------------')
                 # print(context["error_message"])
             else:  # Direction_1 or Direction_3
                 if not context_d_3["c_deps"] and not context_d_3["m_deps"]:  # No dependencies d_1
                     context = copy.deepcopy(context_d_1)
-                    messages = generate_messages(template_names["no_deps"], context)
+                    messages = generate_messages(TEMPLATE_NO_DEPS, context)
                     if remain_prompt_tokens(messages) < 0:  # Truncate information
                         context["information"] = _remove_imports_context(context["information"])
-                        messages = generate_messages(template_names["no_deps"], context)
+                        messages = generate_messages(TEMPLATE_NO_DEPS, context)
                         if remain_prompt_tokens(messages) < 0:  # Failed generating messages
                             messages = []
                 else:  # Has dependencies d_3
                     context = copy.deepcopy(context_d_3)
-                    messages = generate_messages(template_names["with_deps"], context)
+                    messages = generate_messages(TEMPLATE_WITH_DEPS, context)
                     if remain_prompt_tokens(messages) < 0:  # Need Truncate information
                         context["full_fm"] = _remove_imports_context(context["full_fm"])
-                        messages = generate_messages(template_names["with_deps"], context)
+                        messages = generate_messages(TEMPLATE_WITH_DEPS, context)
                         if remain_prompt_tokens(messages) < 0:  # Failed generating messages
                             messages = []
 
                 if not messages:  # Turn to minimum messages
                     context = copy.deepcopy(context_d_1)  # use direction 1 as template
                     context["information"] = context_d_3["full_fm"]  # use full_fm d_3 as context
-                    messages = generate_messages(template_names["no_deps"], context)
+                    messages = generate_messages(TEMPLATE_NO_DEPS, context)
                     if remain_prompt_tokens(messages) < 0:
                         context["information"] = _remove_imports_context(context["information"])
-                        messages = generate_messages(template_names["no_deps"], context)  # !! MINIMUM MESSAGES!!
+                        messages = generate_messages(TEMPLATE_NO_DEPS, context)  # !! MINIMUM MESSAGES!!
                         if remain_prompt_tokens(messages) < 0:  # Failed generating messages
                             print(progress, Fore.RED + "Tokens not enough, test fatal error...", Style.RESET_ALL)
                             break
@@ -599,7 +567,7 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
             if not repair:  # If we do not want to repair the code, we don't need to second round
                 break
     except Exception as e:
-        print(progress, Fore.RED + e, Style.RESET_ALL)
+        print(progress, Fore.RED + str(e), Style.RESET_ALL)
     if os.path.exists(run_temp_dir):
         run_temp_dir = os.path.abspath(run_temp_dir)
         shutil.rmtree(run_temp_dir)
