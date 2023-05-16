@@ -198,3 +198,68 @@ def check_java_version():
         return 17
     elif 'jdk-11' in java_home:
         return 11
+
+
+def repair_package(code, package_info):
+    '''
+    Repair package declaration in test.
+    '''
+    first_line = code.split('import')[0]
+    if package_info == '' or package_info in first_line:
+        return code
+    code = package_info + "\n" + code
+    return code
+
+
+# TODO: imports can be optimized
+def repair_imports(code, imports):
+    '''
+    Repair imports in test.
+    '''
+    import_list = imports.split('\n')
+    first_line, _code = code.split('\n', 1)
+    for _import in reversed(import_list):
+        if _import not in code:
+            _code = _import + "\n" + _code
+    return first_line + '\n' + _code
+
+
+def add_timeout(test_case, timeout=8000):
+    '''
+    Add timeout to test cases. Only for Junit 5
+    '''
+    # check junit version
+    junit4 = 'import org.junit.Test'
+    junit5 = 'import org.junit.jupiter.api.Test'
+    if junit4 in test_case: # Junit 4
+        test_case = test_case.replace('@Test(', f'@Test(timeout = {timeout}, ')
+        return test_case.replace('@Test\n', f'@Test(timeout = {timeout})\n')
+    elif junit5 in test_case: # Junit 5
+        timeOutImport = 'import org.junit.jupiter.api.Timeout;'
+        test_case = repair_imports(test_case, timeOutImport)
+        return test_case.replace('@Test\n', f'@Test\n    @Timeout({timeout})\n')
+    else:
+        print("Can not know which junit version!")
+        return test_case
+
+
+def export_method_test_case(output, class_name, m_id, test_num, method_test_case):
+    '''
+    Export test case to file.
+    output : pathto/project/testcase.java
+    '''
+    method_test_case = add_timeout(method_test_case)
+    f = os.path.join(output, class_name + "_" + str(m_id) + '_' + str(test_num) + "Test.java")
+    if not os.path.exists(output):
+        os.makedirs(output)
+    with open(f, "w") as output_file:
+        output_file.write(method_test_case)
+
+
+def change_class_name(test_case, class_name, m_id, test_num):
+    '''
+    Change the class name in the test_case by given m_id.
+    '''
+    old_name = class_name + 'Test'
+    new_name = class_name + '_' + str(m_id) + '_' + str(test_num) + 'Test'
+    return test_case.replace(old_name, new_name, 1)

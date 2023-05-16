@@ -14,8 +14,6 @@ import concurrent.futures
 import javalang
 import jinja2
 from colorama import Fore, Style, init
-from run_tests import start_test, run_with_d4j
-from parse_response import export_method_test_case, change_class_name, repair_package, repair_imports
 from Task import Task
 
 init()
@@ -23,7 +21,7 @@ init()
 # Create a jinja2 environment
 env = jinja2.Environment(loader=jinja2.FileSystemLoader('../prompt'))
 
-# TODO: new projects
+# TODO: general projects
 template_names = {
     "no_deps": "d1_4.jinja2",
     "with_deps": "d3_4.jinja2",
@@ -72,7 +70,7 @@ def ask_chatgpt_thread(idx, messages, save_path):
             # print(get_current_time(), idx, "Finished!")
             return True
         except Exception as e:
-            print(Fore.RED, e, Style.RESET_ALL)
+            print(Fore.RED + e, Style.RESET_ALL)
             if "This model's maximum context length is 4097 tokens." in str(e):
                 break
             time.sleep(10)
@@ -506,10 +504,10 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                         error_mes = process_error_message(last_round_result["runtime_error"], allow_tokens)
                         context["error_message"] = error_mes
                 else:
-                    print(progress, Fore.RED, method_id, "Tokens not enough, test fatal error...", Style.RESET_ALL)  # Fatal error
+                    print(progress, Fore.RED + method_id, "Tokens not enough, test fatal error...", Style.RESET_ALL)  # Fatal error
                     break
                 if "compile_error" not in last_round_result and "runtime_error" not in last_round_result:
-                    print(progress, Fprogress, ore.RED, method_id, "Timeout error, test fatal error...", Style.RESET_ALL)
+                    print(progress, Fore.RED + method_id, "Timeout error, test fatal error...", Style.RESET_ALL)
                     break
                 messages = generate_messages(template_names["error"], context)
                 # print('-------------------')
@@ -540,13 +538,13 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                         context["information"] = _remove_imports_context(context["information"])
                         messages = generate_messages(template_names["no_deps"], context)  # !! MINIMUM MESSAGES!!
                         if remain_prompt_tokens(messages) < 0:  # Failed generating messages
-                            print(progress, Fore.RED, "Tokens not enough, test fatal error...", Style.RESET_ALL)
+                            print(progress, Fore.RED + "Tokens not enough, test fatal error...", Style.RESET_ALL)
                             break
                 # print(Fore.BLUE, messages[1]['content'], Style.RESET_ALL)
 
             status = ask_chatgpt_thread(thread_id, messages, gpt_file_name)
             if not status:
-                print(progress, Fore.RED, 'OpenAI Fail processing messages', Style.RESET_ALL)
+                print(progress, Fore.RED + 'OpenAI Fail processing messages', Style.RESET_ALL)
                 break
 
             with open(gpt_file_name, "r") as f:
@@ -554,7 +552,7 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
 
             # 2. Extract information from GPT, and RUN save the result
             steps += 1
-            print(progress, method_id, "test_" + str(test_num), "Extracting information", "rounds", rounds)
+            # print(progress, method_id, "test_" + str(test_num), "Extracting information", "rounds", rounds)
             raw_file_name = os.path.join(save_dir, str(steps) + "_raw_" + str(rounds) + ".json")
 
             # run test. save the result in raw_file_name
@@ -564,12 +562,12 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                                                        package)
 
             if test_passed:
-                print(progress, Fore.GREEN, method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "test passed",
+                print(progress, Fore.GREEN + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "test passed",
                       Style.RESET_ALL)
                 break
 
             if not os.path.exists(raw_file_name):
-                print(progress, Fore.RED, method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds,
+                print(progress, Fore.RED + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds,
                       "no code in raw result", Style.RESET_ALL)
                 break
 
@@ -579,7 +577,7 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
 
             # 4. Start imports Repair
             steps += 1
-            print(progress, method_id, "test_" + str(test_num), "Fixing imports", "rounds", rounds)
+            # print(progress, method_id, "test_" + str(test_num), "Fixing imports", "rounds", rounds)
             imports_file_name = os.path.join(save_dir, str(steps) + "_imports_" + str(rounds) + ".json")
             # run imports repair
             source_code = raw_result["source_code"]
@@ -588,20 +586,20 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                                                        project_name,
                                                        package)
             if test_passed:
-                print(progress, Fore.GREEN, method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "test passed",
+                print(progress, Fore.GREEN + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "test passed",
                       Style.RESET_ALL)
                 break
             if fatal_error:
-                print(progress, Fore.RED, method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "fatal error",
+                print(progress, Fore.RED + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "fatal error",
                       Style.RESET_ALL)
                 break
 
-            print(progress, Fore.YELLOW, method_id, "test_" + str(test_num), "Test failed, fixing...", "rounds", rounds,
+            print(progress, Fore.YELLOW + method_id, "test_" + str(test_num), "Test failed, fixing...", "rounds", rounds,
                   Style.RESET_ALL)
             if not repair:  # If we do not want to repair the code, we don't need to second round
                 break
     except Exception as e:
-        print(progress, Fore.RED, e, Style.RESET_ALL)
+        print(progress, Fore.RED + e, Style.RESET_ALL)
     if os.path.exists(run_temp_dir):
         run_temp_dir = os.path.abspath(run_temp_dir)
         shutil.rmtree(run_temp_dir)

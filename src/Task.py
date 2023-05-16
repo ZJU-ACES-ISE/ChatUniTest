@@ -5,12 +5,11 @@ import signal
 import psutil
 import time
 import concurrent.futures
-from run_test_case.run_test_cases import start_run, start_single_test
 from TestRunner import TestRunner
 from ClassParser import ClassParser
 from tools import *
 from config import *
-from colorama import Fore, Style, init
+from colorama import Fore, init
 
 
 class Task:
@@ -51,14 +50,11 @@ class TestTask:
         # define the threshold for CPU utilization and available memory
         self.cpu_threshold = 80
         self.mem_threshold = 1024 * 1024 * 5000  # 5G
-        self.TIMEOUT = 30
-        self.TEST_NUMBER = 6
 
     def single_test(self):
         """
-        Only run tests
-        :param test_path:  tests directory path, e.g., /data/share/TestGPT_ASE/result/scope_test%20230414210243%d3_1/1460%lang_1_f%ToStringBuilder%append%d3/5
-        :param target_path: target project path
+        Only run tests.
+        tests directory path, e.g., /data/share/TestGPT_ASE/result/scope_test%20230414210243%d3_1/1460%lang_1_f%ToStringBuilder%append%d3/5
         """
         if check_java_version() != 11:
             raise Exception(Fore.RED + "Wrong java version! Need: java 11")
@@ -79,8 +75,8 @@ class TestTask:
 
     def start_d4j(self):
         """
-        Adaptive assignment for d4j tests
-        :param test_case_src: /root/TestGPT_ASE/result_429/scope_test%20230428134414%/4950%Chart_8_f%Week%getYear%d1/1/temp
+        Adaptive assignment for d4j tests.
+        test case path: /root/TestGPT_ASE/result_429/scope_test%20230428134414%/4950%Chart_8_f%Week%getYear%d1/1/temp
         """
         # loop until the CPU utilization falls below the threshold
         while True:
@@ -97,7 +93,7 @@ class TestTask:
     def run_d4j(self):
         """
         Run single test using defects4j test api
-        :param test_case_src: /root/TestGPT_ASE/result_429/scope_test%20230428134414%/4950%Chart_8_f%Week%getYear%d1/1/temp
+        test case path: /root/TestGPT_ASE/result_429/scope_test%20230428134414%/4950%Chart_8_f%Week%getYear%d1/1/temp
         """
         d4j_script = 'scripts/d4j_test.sh'
         test_case_src = os.path.join(self.test_path, "temp")
@@ -119,11 +115,11 @@ class TestTask:
                         else:
                             f.write(stderr.decode())
                 break
-            elif time.monotonic() - start_time >= self.TIMEOUT:
+            elif time.monotonic() - start_time >= TIMEOUT:
                 sub_pids = find_processes_created_by(process.pid)
                 for pid in sub_pids:
                     os.kill(pid, signal.SIGTERM)
-                print("TIME OUT")
+                # print(Fore.RED + "TIME OUT!", Style.RESET_ALL)
                 break
             else:
                 time.sleep(0.1)
@@ -143,7 +139,7 @@ class TestTask:
                         m_id, project_name, class_name, method_name = parse_directory_name(tests_path)
                         project_path = os.path.join(target_path, project_name.replace('_f', '_b'))
                         self.target_path = project_path
-                        for i in range(1, self.TEST_NUMBER + 1):
+                        for i in range(1, test_number + 1):
                             if not os.path.exists(os.path.join(tests_path, str(i))):
                                 continue
                             print("Processing project:", project_name, "method id:", m_id, "test number:", str(i))
@@ -158,7 +154,7 @@ class TestTask:
                     m_id, project_name, class_name, method_name = parse_directory_name(tests_path)
                     project_path = os.path.join(target_path, project_name.replace('_f', '_b'))
                     self.target_path = project_path
-                    for i in range(1, self.TEST_NUMBER + 1):
+                    for i in range(1, test_number + 1):
                         if not os.path.exists(os.path.join(tests_path, str(i))):
                             continue
                         print("Processing project:", project_name, "method id:", m_id, "test number:", str(i))
@@ -170,9 +166,7 @@ class TestTask:
 class ParseTask:
 
     def __init__(self):
-        self.grammar_file="./parse_scripts/java-grammar.so" #(not a mach-o file)
-        self.language = "java"
-        self.parser = ClassParser(self.grammar_file, self.language)
+        self.parser = ClassParser(GRAMMAR_FILE, LANGUAGE)
         self.tmp = "./tmp/tmp/"
         self.output = "./tmp/output/"
 

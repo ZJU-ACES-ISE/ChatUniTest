@@ -3,6 +3,8 @@ import os
 import subprocess
 import re
 from datetime import datetime
+from config import *
+from colorama import Fore, Style, init
 
 
 class TestRunner:
@@ -15,6 +17,7 @@ class TestRunner:
         /data/share/TestGPT_ASE/result/scope_test%20230414210243%d3_1/1460%lang_1_f%ToStringBuilder%append%d3/5 (single test)
         :param target_path: target project path
         """
+        init() # colorama init
         self.coverage_tool = tool
         self.test_path = test_path
         self.target_path = target_path
@@ -24,31 +27,17 @@ class TestRunner:
         self.build_dir_name = "target/classes"
         self.build_dir = self.process_single_repo()
 
-        self.TIMEOUT = 30
-        self.TEST_NUMBER = 6
         self.COMPILE_ERROR = 0
         self.TEST_RUN_ERROR = 0
-        self.REPORT_FORMAT = 'xml'
 
         # TODO: use relative path
-        self.COBERTURA_DIR = "./run_test_case/dependencies/cobertura-2.1.1"
-        self.JUNIT_JAR = "./run_test_case/dependencies/lib/junit-platform-console-standalone-1.9.2.jar"
-        self.MOCKITO_JAR = "./run_test_case/dependencies/lib/mockito-core-3.12.4.jar:\
-./run_test_case/dependencies/lib/mockito-inline-3.12.4.jar:\
-./run_test_case/dependencies/lib/mockito-junit-jupiter-3.12.4.jar:\
-./run_test_case/dependencies/lib/byte-buddy-1.14.4.jar:\
-./run_test_case/dependencies/lib/byte-buddy-agent-1.14.4.jar:\
-./run_test_case/dependencies/lib/objenesis-3.3.jar"
-        self.LOG4J_JAR = "./run_test_case/dependencies/lib/slf4j-api-1.7.5.jar:\
-./run_test_case/dependencies/lib/slf4j-log4j12-1.7.12.jar:\
-./run_test_case/dependencies/lib/log4j-1.2.17.jar"
-        self.JACOCO_AGENT = "./run_test_case/dependencies/jacoco/jacocoagent.jar"
-        self.JACOCO_CLI = "./run_test_case/dependencies/jacoco/jacococli.jar"
+
 
     def start_single_test(self):
         """
         Run a single method test case with a thread.
-        :param single_test_src:  tests directory path, e.g., /data/share/TestGPT_ASE/result/scope_test%20230414210243%d3_1/1460%lang_1_f%ToStringBuilder%append%d3/5
+        tests directory path, e.g.:
+        /data/share/TestGPT_ASE/result/scope_test%20230414210243%d3_1/1460%lang_1_f%ToStringBuilder%append%d3/5
         """
         # self.test_path = single_test_src
         temp_dir = os.path.join(self.test_path, "temp")
@@ -95,7 +84,8 @@ class TestRunner:
         tests = os.path.join(tests_dir, "test_cases")
         self.instrument(compiled_test_dir, compiled_test_dir)
         total_compile = 0
-        for t in range(1, 1 + self.TEST_NUMBER):
+        total_test_run = 0
+        for t in range(1, 1 + test_number):
             print("Processing attempt: ", str(t))
             for test_case_file in os.listdir(tests):
                 if str(t) != test_case_file.split('_')[-1].replace('Test.java', ''):
@@ -128,14 +118,14 @@ class TestRunner:
             test_output_file = f"{test_output}-{os.path.basename(test_file)}.txt"
         cmd = self.java_cmd(compiled_test_dir, test_file)
         try:
-            result = subprocess.run(cmd, timeout=self.TIMEOUT,
+            result = subprocess.run(cmd, timeout=TIMEOUT,
                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             if result.returncode != 0:
                 self.TEST_RUN_ERROR += 1
                 self.export_runtime_output(result, test_output_file)
                 return False
         except subprocess.TimeoutExpired:
-            print("Timed out!")
+            # print(Fore.RED + "TIME OUT!", Style.RESET_ALL)
             return False
         return True
 
@@ -150,7 +140,7 @@ class TestRunner:
     def compile(self, test_file, compiled_test_dir, compiler_output):
         """
         Compile a test case.
-        :param test_case:
+        :param test_file:
         :param compiled_test_dir: the directory to store compiled tests
         :param compiler_output:
         """
@@ -215,15 +205,15 @@ class TestRunner:
         return False
 
     def javac_cmd(self, compiled_test_dir, test_file):
-        classpath = f"{self.JUNIT_JAR}:{self.MOCKITO_JAR}:{self.LOG4J_JAR}:{self.dependencies}:{self.build_dir}:."
+        classpath = f"{JUNIT_JAR}:{MOCKITO_JAR}:{LOG4J_JAR}:{self.dependencies}:{self.build_dir}:."
         classpath_file = os.path.join(compiled_test_dir, 'classpath.txt')
         self.export_classpath(classpath_file, classpath)
         return ["javac", "-d", compiled_test_dir, f"@{classpath_file}", test_file]
 
     def java_cmd(self, compiled_test_dir, test_file):
         full_test_name = self.get_full_name(test_file)
-        classpath = f"{self.COBERTURA_DIR}/cobertura-2.1.1.jar:{compiled_test_dir}/instrumented:{compiled_test_dir}:" \
-                    f"{self.JUNIT_JAR}:{self.MOCKITO_JAR}:{self.LOG4J_JAR}:{self.dependencies}:{self.build_dir}:."
+        classpath = f"{COBERTURA_DIR}/cobertura-2.1.1.jar:{compiled_test_dir}/instrumented:{compiled_test_dir}:" \
+                    f"{JUNIT_JAR}:{MOCKITO_JAR}:{LOG4J_JAR}:{self.dependencies}:{self.build_dir}:."
         classpath_file = os.path.join(compiled_test_dir, 'classpath.txt')
         self.export_classpath(classpath_file, classpath)
         if self.coverage_tool == "cobertura":
@@ -232,7 +222,7 @@ class TestRunner:
                     "org.junit.platform.console.ConsoleLauncher", "--disable-banner", "--disable-ansi-colors",
                     "--fail-if-no-tests", "--details=none", "--select-class", full_test_name]
         else:  # self.coverage_tool == "jacoco"
-            return ["java", f"-javaagent:{self.JACOCO_AGENT}=destfile={compiled_test_dir}/jacoco.exec",
+            return ["java", f"-javaagent:{JACOCO_AGENT}=destfile={compiled_test_dir}/jacoco.exec",
                     f"@{classpath_file}",
                     "org.junit.platform.console.ConsoleLauncher", "--disable-banner", "--disable-ansi-colors",
                     "--fail-if-no-tests", "--details=none", "--select-class", full_test_name]
@@ -266,7 +256,7 @@ class TestRunner:
             target_classes = os.path.join(self.target_path, '**/target/classes')
         else:
             target_classes = os.path.join(self.target_path, 'target/classes')
-        result = subprocess.run(["bash", os.path.join(self.COBERTURA_DIR, "cobertura-instrument.sh"),
+        result = subprocess.run(["bash", os.path.join(COBERTURA_DIR, "cobertura-instrument.sh"),
                                  "--basedir", self.target_path,
                                  "--destination", f"{instrument_dir}/instrumented",
                                  "--datafile", f"{datafile_dir}/cobertura.ser",
@@ -278,8 +268,8 @@ class TestRunner:
         """
         os.makedirs(report_dir, exist_ok=True)
         if self.coverage_tool == "cobertura":
-            result = subprocess.run(["bash", os.path.join(self.COBERTURA_DIR, "cobertura-report.sh"),
-                                     "--format", self.REPORT_FORMAT, "--datafile", f"{datafile_dir}/cobertura.ser",
+            result = subprocess.run(["bash", os.path.join(COBERTURA_DIR, "cobertura-report.sh"),
+                                     "--format", REPORT_FORMAT, "--datafile", f"{datafile_dir}/cobertura.ser",
                                      "--destination",
                                      report_dir], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         else:
@@ -288,7 +278,7 @@ class TestRunner:
             for build in build_list:
                 classfiles += " --classfiles " + build
             result = subprocess.run(
-                ["java", "-jar", self.JACOCO_CLI, "report", f"{datafile_dir}/jacoco.exec", classfiles,
+                ["java", "-jar", JACOCO_CLI, "report", f"{datafile_dir}/jacoco.exec", classfiles,
                  "--csv", os.path.join(report_dir, "coverage.csv")], stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE)
 
