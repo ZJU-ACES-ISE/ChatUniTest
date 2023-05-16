@@ -8,6 +8,9 @@ projects/
 dataset/
 information/
 venv/
+.idea/
+**/__pycache__/
+**/.DS_Store
 result/
 sync.sh
 setup.py
