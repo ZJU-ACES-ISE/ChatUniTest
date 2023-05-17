@@ -2,10 +2,7 @@
 
 This is the implementation of the tool TestGPT.
 
-<video width="320" height="240" autoplay loop>
-  <source src="demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![Alt Text](demo.gif)
 
 
 ## Installation
