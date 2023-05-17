@@ -32,7 +32,8 @@ def run():
     create_table()
 
     # Parse project
-    info_path = Task.parse(project_dir)
+    # info_path = Task.parse(project_dir)
+    info_path = "/Users/chenyi/Desktop/ChatTester/TestGPT_ASE/information/Lang_1_f"
 
     # Parse data
     parse_data(info_path)
@@ -47,11 +48,11 @@ def run():
 
     # Modify SQL query to test the designated classes.
     sql_query = """
-        SELECT id FROM method WHERE project_name='{}' LIMIT 5;
+        SELECT id FROM method WHERE project_name='{}';
     """.format(project_name)
 
     # Start the whole process
-    start_generation(sql_query, multiprocess=True, repair=True, confirmed=False)
+    start_generation(sql_query, multiprocess=False, repair=True, confirmed=False)
 
     # Export the result
     result_analysis()
