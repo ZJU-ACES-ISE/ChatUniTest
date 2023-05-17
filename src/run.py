@@ -7,6 +7,7 @@ from parse_data import parse_data
 from export_data import export_data
 from scope_test import start_generation
 from parse_xml import result_analysis
+from task import Task
 
 
 def clear_dataset():
@@ -30,8 +31,11 @@ def run():
     # Create the table
     create_table()
 
+    # Parse project
+    info_path = Task.parse(project_dir)
+
     # Parse data
-    parse_data(project_dir)
+    parse_data(info_path)
 
     # clear last dataset
     clear_dataset()

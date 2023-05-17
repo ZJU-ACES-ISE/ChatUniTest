@@ -84,7 +84,7 @@ def start_generation(sql_query, multiprocess=True, repair=True, confirmed=False)
         method_ids = [str(i) for i in method_ids]
     print("You are about to start the whole process of scope test.")
     print("The number of methods is ", len(method_ids), ".")
-    print("The approximate cost will be" + Fore.RED + "$", len(method_ids) * 0.0184 * test_number, ".", Style.RESET_ALL)
+    print("The approximate cost will be", Fore.RED + "$", len(method_ids) * 0.0184 * test_number, ".", Style.RESET_ALL)
     record = "This is a record of a scope test.\n"
     if not confirmed:
         confirm = input("Are you sure to start the scope test? (y/n): ")
@@ -109,7 +109,7 @@ def start_generation(sql_query, multiprocess=True, repair=True, confirmed=False)
     # Find all the files
     source_dir = os.path.join(dataset_dir, "direction_1")
 
-    start_whole_process(source_dir, multiprocess=multiprocess, repair=repair)
+    start_whole_process(source_dir, result_path, multiprocess=multiprocess, repair=repair)
     print("WHOLE PROCESS FINISHED")
     # Run accumulated tests
     project_path = os.path.abspath(project_dir)

@@ -17,7 +17,7 @@ class Task:
         Run test task, make sure the target project has be compiled and installed.(run `mvn compile install`)
         """
         test_task = TestTask(test_path, target_path)
-        test_task.single_test()
+        return test_task.single_test()
 
     @staticmethod
     def all_test(test_path, target_path):
@@ -25,7 +25,7 @@ class Task:
         Run test task, make sure the target project has be compiled and installed.(run `mvn compile install`)
         """
         test_task = TestTask(test_path, target_path)
-        test_task.all_test()
+        return test_task.all_test()
 
     @staticmethod
     def parse(target_path):
@@ -33,7 +33,7 @@ class Task:
         Run parse task, extract class information of target project.
         """
         parse_task = ParseTask()
-        parse_task.parse_project(target_path)
+        return parse_task.parse_project(target_path)
 
 
 class TestTask:
@@ -55,10 +55,10 @@ class TestTask:
         """
         if check_java_version() != 11:
             raise Exception(Fore.RED + "Wrong java version! Need: java 11")
-        # if self.target_path.endswith('_f') or self.target_path.endswith('_b'): # defects4j project
-        #     self.start_d4j()
+        if self.target_path.endswith('_f') or self.target_path.endswith('_b'):  # defects4j project
+            return self.start_d4j()
         else:  # general project
-            self.runner.start_single_test()
+            return self.runner.start_single_test()
 
     def all_test(self):
         """
@@ -68,7 +68,7 @@ class TestTask:
         """
         if check_java_version() != 11:
             raise Exception(Fore.RED + "Wrong java version! Need: java 11")
-        self.runner.start_all_test()
+        return self.runner.start_all_test()
 
     def start_d4j(self):
         """
@@ -164,8 +164,8 @@ class ParseTask:
 
     def __init__(self):
         self.parser = ClassParser(GRAMMAR_FILE, LANGUAGE)
-        self.tmp = "./tmp/tmp/"
-        self.output = "./tmp/output/"
+        self.tmp = "./tmp"
+        self.output = "./class_info/"
 
     def parse_project(self, target_path):
         """
@@ -176,7 +176,8 @@ class ParseTask:
         os.makedirs(self.output, exist_ok=True)
         # Run analysis
         print("Parser all class...")
-        tot_m = self.find_classes(target_path)
+        tot_m, output_path = self.find_classes(target_path)
+        return output_path
 
     def find_classes(self, target_path):
         """
@@ -209,7 +210,7 @@ class ParseTask:
         focals = [f for f in focals if not "src/test" in f]
         project_name = os.path.split(target_path)[1]
         output = os.path.join(self.output, project_name)
-        return self.parse_all_classes(focals, project_name, output)
+        return self.parse_all_classes(focals, project_name, output), output
 
     def parse_all_classes(self, focals, project_name, output):
         classes = {}
