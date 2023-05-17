@@ -308,15 +308,15 @@ class ClassParser():
         return type_list
 
     @staticmethod
-    def get_var_declar(function_node, param_var_declares, blob: str):
+    def get_var_declare(function_node, param_var_declares, blob: str):
         """
         Get all variable declarations in this body and method's parameters.
         """
-        var_declars = {}
-        var_declars.update(param_var_declares)
-        declar_nodes = []
-        ClassParser.traverse_type(function_node, declar_nodes, 'local_variable_declaration')
-        for dn in declar_nodes:
+        var_declares = {}
+        var_declares.update(param_var_declares)
+        declare_nodes = []
+        ClassParser.traverse_type(function_node, declare_nodes, 'local_variable_declaration')
+        for dn in declare_nodes:
             for child in dn.children:
                 if child.type == 'type_identifier':
                     dtype = ClassParser.match_from_span(child, blob)
@@ -325,9 +325,9 @@ class ClassParser():
                         for _child in var_node.children:
                             if _child.type == 'identifier':
                                 dvar = ClassParser.match_from_span(_child, blob)
-                                var_declars[dvar] = dtype
+                                var_declares[dvar] = dtype
                                 break
-        return var_declars
+        return var_declares
 
     @staticmethod
     def is_gs(function_node, fields):

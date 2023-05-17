@@ -344,10 +344,11 @@ def remain_prompt_tokens(messages):
     return MAX_PROMPT_TOKENS - get_messages_tokens(messages)
 
 
-def whole_process(test_num, base_dir, repair, submits, total):
+def whole_process(test_num, base_name, base_dir, repair, submits, total):
     """
     Multiprocess version of start_generation
     :param test_num:
+    :param base_name:
     :param base_dir:
     :param repair:
     :param submits:
@@ -362,7 +363,7 @@ def whole_process(test_num, base_dir, repair, submits, total):
     run_temp_dir = os.path.join(save_dir, "runtemp")
 
     steps, rounds = 0, 0
-    method_id, project_name, class_name, method_name = parse_directory_name(base_dir)
+    method_id, project_name, class_name, method_name = parse_file_name(base_name)
 
     # 1. Get method data
     with open(get_dataset_path(method_id, project_name, class_name, method_name, "raw"), "r") as f:
@@ -537,7 +538,7 @@ def whole_process(test_num, base_dir, repair, submits, total):
         shutil.rmtree(run_temp_dir)
 
 
-def start_whole_process(source_dir, multiprocess=False, repair=True):
+def start_whole_process(source_dir, result_path, multiprocess=False, repair=True):
     """
     Start repair process
     :param repair:  Whether to repair the code
@@ -562,7 +563,7 @@ def start_whole_process(source_dir, multiprocess=False, repair=True):
                 base_dir, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
                 for test_num in range(1, test_number + 1):
                     submits += 1
-                    executor.submit(whole_process, test_num, base_dir, repair, submits, total)
+                    executor.submit(whole_process, test_num, base_name, result_path, repair, submits, total)
         print("Main process executing!")
     else:
         print("Single process executing!")
@@ -570,4 +571,4 @@ def start_whole_process(source_dir, multiprocess=False, repair=True):
             base_dir, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
             for test_num in range(1, test_number + 1):
                 submits += 1
-                whole_process(test_num, base_dir, repair, submits, total)
+                whole_process(test_num, base_name, result_path, repair, submits, total)

@@ -7,6 +7,8 @@ src/test_api_key.py
 projects/
 dataset/
 information/
+class_info/
+tmp/
 venv/
 .idea/
 **/__pycache__/

@@ -36,7 +36,7 @@ def get_numberutils_result(result_path=None):
     for name in os.listdir(result_path):
         file_path = os.path.join(result_path, name)
         if os.path.isdir(file_path):
-            m_id, project_name, class_name, method_name = parse_directory_name(name)
+            m_id, project_name, class_name, method_name = parse_file_name(name)
             raw_data = get_raw_data(m_id, project_name, class_name, method_name)
             parameters = raw_data["parameters"]
             for i in range(1, test_number + 1):
@@ -94,7 +94,7 @@ def result_analysis(result_path=None):
         directory_name = os.path.join(result_path, name)
         if os.path.isdir(directory_name):
             if not project_name:
-                project_name = parse_directory_name(directory_name)[1]
+                project_name = parse_file_name(directory_name)[1]
             all_files_cnt += len(os.listdir(directory_name))
             for i in range(1, test_number + 1):
                 sub_dir = os.path.join(directory_name, str(i))
