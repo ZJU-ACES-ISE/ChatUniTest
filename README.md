@@ -139,6 +139,7 @@ The nested structure of the result directory is as follows:
 This is the directory that stores the source code.
 
 ## Contact us
-If you have any question or require our experimental result, feel free to contact us, our e-mails are:
-1. yh_ch@zju.edu.cn
-2. xiezhuokui@zju.edu.cn
+If you have any questions or would like to inquire about our experimental results, please feel free to contact us via email. The email addresses of the authors are as follows:
+
+1. Corresponding author: `yh_ch@zju.edu.cn`
+2. Author: `xiezhuokui@zju.edu.cn`, `yh_ch@zju.edu.cn`
