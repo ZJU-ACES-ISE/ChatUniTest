@@ -164,18 +164,16 @@ class ParseTask:
 
     def __init__(self):
         self.parser = ClassParser(GRAMMAR_FILE, LANGUAGE)
-        self.tmp = "./tmp"
-        self.output = "./class_info/"
+        self.output = "../class_info/"
 
     def parse_project(self, target_path):
         """
         Analyze a single project
         """
         # Create folders
-        os.makedirs(self.tmp, exist_ok=True)
         os.makedirs(self.output, exist_ok=True)
         # Run analysis
-        print("Parser all class...")
+        print("Parse", target_path, " ...")
         tot_m, output_path = self.find_classes(target_path)
         return output_path
 
@@ -185,31 +183,34 @@ class ParseTask:
         Finds test cases using @Test annotation
         """
         # Move to folder
-        pwd = os.getcwd()
-        if os.path.exists(target_path):
-            os.chdir(target_path)
-        else:
+        # pwd = os.getcwd()
+        # if os.path.exists(target_path):
+            # os.chdir(target_path)
+        # else:
+            # return 0, 0, 0, 0
+        if not os.path.exists(target_path):
             return 0, 0, 0, 0
         # Test Classes
         try:
-            result = subprocess.check_output(r'grep -l -r @Test --include \*.java', shell=True)
+            result = subprocess.check_output(r'grep -l -r @Test --include \*.java {}'.format(target_path), shell=True)
             tests = result.decode('ascii').splitlines()
         except:
             tests = []
         # Java Files
         try:
-            result = subprocess.check_output(['find', '-name', '*.java'])
+            result = subprocess.check_output(['find', target_path, '-name', '*.java'])
             java = result.decode('ascii').splitlines()
-            java = [j.replace("./", "") for j in java]
+            # java = [j.replace("./", "") for j in java]
         except:
-            os.chdir(pwd)
+            # os.chdir(pwd)
             return 0, 0, 0, 0
-        os.chdir(pwd)
+        # os.chdir(pwd)
         # All Classes exclude tests
         focals = list(set(java) - set(tests))
         focals = [f for f in focals if not "src/test" in f]
-        project_name = os.path.split(target_path)[1]
+        project_name = os.path.split(target_path.rstrip('/'))[1]
         output = os.path.join(self.output, project_name)
+        os.makedirs(output, exist_ok=True)
         return self.parse_all_classes(focals, project_name, output), output
 
     def parse_all_classes(self, focals, project_name, output):
