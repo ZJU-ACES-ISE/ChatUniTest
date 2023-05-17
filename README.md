@@ -4,8 +4,8 @@ This is the implementation of the tool TestGPT.
 
 ![Alt Text](demo.gif)
 
-
 ## Installation
+
 To install the project, you can follow the instructions down blow.
 
 ## Structure
