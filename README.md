@@ -38,7 +38,7 @@ to ensure your data's security.
 
 You need to alter few options:
 
-1. `project_dir`
+1. `project_dir`: compiled Java project directory.
 2. `api_keys`
 3. `host`, `port`, `database`, `user`, `password`
 
@@ -50,7 +50,7 @@ test_number = 6 #The number of attempts to generate for each focal method.
 process_number = 32 # The number of processes to use when generating tests.
 dataset_dir = ../dataset/ # Dataset directory, no need to change.
 result_dir = ../result/ # Result directory, no need to change.
-project_dir = ../Chart/ # Project directory, change it to your project directory.
+project_dir = ../Chart/ # compiled Java project directory.
 max_rounds = 6 # The maximum number of rounds to generate one test. One round for generation, 5 rounds for repairing the test.
 TIMEOUT = 30 # The timeout for each test.
 MAX_PROMPT_TOKENS = 2700 # The maximum number of tokens for each prompt.
