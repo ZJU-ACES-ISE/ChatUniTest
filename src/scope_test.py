@@ -91,8 +91,6 @@ def start_generation(sql_query, multiprocess=True, repair=True, confirmed=False)
         if confirm != "y":
             print("Scope test cancelled.")
             return
-        confirm = input("State your purpose of this scope test: ")
-        record += "Scope test purpose: " + confirm + "\n"
 
     # Create the new folder
     result_path = create_dataset_result_folder("")

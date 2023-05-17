@@ -560,15 +560,17 @@ def start_whole_process(source_dir, result_path, multiprocess=False, repair=True
         # Create a process pool with maximum of process_number
         with concurrent.futures.ProcessPoolExecutor(max_workers=process_number) as executor:
             for idx, file_path in enumerate(file_paths):
-                base_dir, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
+                _, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
+                base_dir = os.path.join(result_path, base_name.split(".json")[0])
                 for test_num in range(1, test_number + 1):
                     submits += 1
-                    executor.submit(whole_process, test_num, base_name, result_path, repair, submits, total)
+                    executor.submit(whole_process, test_num, base_name, base_dir, repair, submits, total)
         print("Main process executing!")
     else:
         print("Single process executing!")
         for idx, file_path in enumerate(file_paths):
-            base_dir, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
+            _, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
+            base_dir = os.path.join(result_path, base_name.split(".json")[0])
             for test_num in range(1, test_number + 1):
                 submits += 1
-                whole_process(test_num, base_name, result_path, repair, submits, total)
+                whole_process(test_num, base_name, base_dir, repair, submits, total)
