@@ -22,10 +22,6 @@ def xml_to_json(result_path):
               "complexity": soup.find("coverage").attrs["complexity"]}
     with open(output_path, "w") as f:
         json.dump(result, f)
-    # command = ['pycobertura', 'show', '--format', 'json', '--output', output_path, src_path]
-    # run the command and capture the output
-    # result = subprocess.run(command, capture_output=True)
-    # print(result)
 
 
 def get_numberutils_result(result_path=None):

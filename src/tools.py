@@ -31,9 +31,9 @@ def count_tokens(strings):
 
 
 def find_processes_created_by(pid):
-    '''
+    """
     Find the process's and all subprocesses' pid
-    '''
+    """
     parent_process = psutil.Process(pid)
     child_processes = parent_process.children(recursive=True)
     pids = [process.pid for process in child_processes]
@@ -111,8 +111,8 @@ def get_raw_data(method_id, project_name, class_name, method_name):
     return raw_data
 
 
-def get_project_abspath(project_name):
-    return os.path.abspath(os.path.join(projects_dir, project_name))
+def get_project_abspath():
+    return os.path.abspath(project_dir)
 
 
 def remove_single_test_output_dirs(project_path):
@@ -139,14 +139,14 @@ def find_result_in_projects():
     Find the new directory.
     :return: The new directory.
     """
-    all_results = [x for x in os.listdir(projects_dir) if '%' in x]
+    all_results = [x for x in os.listdir(project_dir) if '%' in x]
     all_results = sorted(all_results, key=get_date_string)
     return os.path.join(result_dir, all_results[-1])
 
 
 def find_newest_result():
     """
-    Find the new directory.
+    Find the newest directory.
     :return: The new directory.
     """
     all_results = os.listdir(result_dir)
@@ -202,9 +202,9 @@ def check_java_version():
 
 
 def repair_package(code, package_info):
-    '''
+    """
     Repair package declaration in test.
-    '''
+    """
     first_line = code.split('import')[0]
     if package_info == '' or package_info in first_line:
         return code
@@ -214,9 +214,9 @@ def repair_package(code, package_info):
 
 # TODO: imports can be optimized
 def repair_imports(code, imports):
-    '''
+    """
     Repair imports in test.
-    '''
+    """
     import_list = imports.split('\n')
     first_line, _code = code.split('\n', 1)
     for _import in reversed(import_list):
@@ -226,9 +226,9 @@ def repair_imports(code, imports):
 
 
 def add_timeout(test_case, timeout=8000):
-    '''
+    """
     Add timeout to test cases. Only for Junit 5
-    '''
+    """
     # check junit version
     junit4 = 'import org.junit.Test'
     junit5 = 'import org.junit.jupiter.api.Test'
@@ -236,8 +236,8 @@ def add_timeout(test_case, timeout=8000):
         test_case = test_case.replace('@Test(', f'@Test(timeout = {timeout}, ')
         return test_case.replace('@Test\n', f'@Test(timeout = {timeout})\n')
     elif junit5 in test_case:  # Junit 5
-        timeOutImport = 'import org.junit.jupiter.api.Timeout;'
-        test_case = repair_imports(test_case, timeOutImport)
+        timeout_import = 'import org.junit.jupiter.api.Timeout;'
+        test_case = repair_imports(test_case, timeout_import)
         return test_case.replace('@Test\n', f'@Test\n    @Timeout({timeout})\n')
     else:
         print("Can not know which junit version!")
@@ -245,10 +245,10 @@ def add_timeout(test_case, timeout=8000):
 
 
 def export_method_test_case(output, class_name, m_id, test_num, method_test_case):
-    '''
+    """
     Export test case to file.
     output : pathto/project/testcase.java
-    '''
+    """
     method_test_case = add_timeout(method_test_case)
     f = os.path.join(output, class_name + "_" + str(m_id) + '_' + str(test_num) + "Test.java")
     if not os.path.exists(output):
@@ -258,9 +258,9 @@ def export_method_test_case(output, class_name, m_id, test_num, method_test_case
 
 
 def change_class_name(test_case, class_name, m_id, test_num):
-    '''
+    """
     Change the class name in the test_case by given m_id.
-    '''
+    """
     old_name = class_name + 'Test'
     new_name = class_name + '_' + str(m_id) + '_' + str(test_num) + 'Test'
     return test_case.replace(old_name, new_name, 1)

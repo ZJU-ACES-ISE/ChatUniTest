@@ -93,7 +93,6 @@ def parse_data(dir_path: str):
                                                  "is_constructor": is_constructor,
                                                  "is_get_set": is_get_set,
                                                  "is_public": is_public})
-                        # print("Parsing class", class_name, ", Inserted method: " + method_name)
 
                     # insert class data into table class
                     db.insert("class", row={"project_name": project_name,

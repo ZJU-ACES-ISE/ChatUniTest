@@ -313,8 +313,7 @@ def extract_and_run(input_string, output_path, class_name, method_id, test_num, 
 
     # run test
     response_dir = os.path.abspath(os.path.dirname(output_path))
-    target_dir = os.path.abspath(os.path.join(projects_dir, project_name))
-    # start_test(response_dir, target_dir)
+    target_dir = os.path.abspath(project_dir)
     Task.test(response_dir, target_dir)
 
     # 3. Read the result

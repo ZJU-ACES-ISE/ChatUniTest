@@ -5,6 +5,7 @@ from typing import List
 class ClassParser():
 
     def __init__(self, grammar_file, language):
+        self.content = None
         JAVA_LANGUAGE = Language(grammar_file, language)
         self.parser = Parser()
         self.parser.set_language(JAVA_LANGUAGE)
@@ -75,9 +76,9 @@ class ClassParser():
             'superclass': '',
             'interfaces': '',
             'c_sig': '',
-            'has_constructor': '',
+            'has_constructor': False,
             'fields': '',
-            'methods': '',
+            'methods': [],
             'argument_list': '',
         }
 
@@ -139,10 +140,8 @@ class ClassParser():
         fields = []
 
         for f in ClassParser.children_of_type(body_node, "field_declaration"):
-            field_dict = {}
-
             # Complete field
-            field_dict["original_string"] = ClassParser.match_from_span(f, blob)
+            field_dict = {"original_string": ClassParser.match_from_span(f, blob)}
 
             # Modifier
             modifiers_node_list = ClassParser.children_of_type(f, "modifiers")
@@ -177,7 +176,6 @@ class ClassParser():
             'method_name': '',
             'm_sig': '',
             'class': '',
-            # 'dependent_classes': '',
             'source_code': '',
             'parameters': '',
             'modifiers': '',
@@ -190,20 +188,23 @@ class ClassParser():
             'm_deps': '',
         }
         # Parameters
-        full_parameter_list, dependent_classes, instance_2_classes = ClassParser.get_method_name_and_params(function_node, metadata, blob)
+        full_parameter_list, dependent_classes, instance_2_classes = ClassParser.get_method_name_and_params(
+            function_node, metadata, blob)
         full_parameters = ' '.join(full_parameter_list)
         # Add field dependencies
-        dependent_classes, instance_2_classes =  ClassParser.get_field_dependencies(dependent_classes, instance_2_classes, class_fields)
+        dependent_classes, instance_2_classes = ClassParser.get_field_dependencies(dependent_classes,
+                                                                                   instance_2_classes, class_fields)
         # Body
         metadata['source_code'] = ClassParser.match_from_span(function_node, blob)
         metadata['class'] = class_identifier
         # is getter or setter
         metadata['is_get_set'] = ClassParser.is_gs(function_node, class_fields)
         # use fields or not
-        if metadata['is_get_set'] == True:
+        if metadata['is_get_set']:
             metadata['use_field'] = True
         else:
-            metadata['use_field'] = ClassParser.use_fields(function_node.child_by_field_name('body'), class_fields, blob)
+            metadata['use_field'] = ClassParser.use_fields(function_node.child_by_field_name('body'), class_fields,
+                                                           blob)
         # Constructor
         metadata['is_constructor'] = False
         # if "constructor" in function_node.type:
@@ -215,7 +216,7 @@ class ClassParser():
         for child in function_node.children:
             if child.type == "modifiers":
                 metadata['modifiers'] = ' '.join(ClassParser.match_from_span(child, blob).split())
-            if ("type" in child.type):
+            if "type" in child.type:
                 metadata['return'] = ClassParser.match_from_span(child, blob)
         # Signature
         metadata['signature'] = '{} {}{}'.format(metadata['return'], metadata['method_name'], full_parameters)
@@ -228,12 +229,10 @@ class ClassParser():
 
     @staticmethod
     def get_method_name_and_params(function_node, metadata, blob: str):
-        '''
+        """
         Get focal method name and parameters
-        :param function_node:
-        :param blob: full context
-        :return: dependent classes in parameters, variavles to ClassTypes
-        '''
+        :return: dependent classes in parameters, variables to ClassTypes
+        """
         declarators = []
         ClassParser.traverse_type(function_node, declarators, '{}_declaration'.format(function_node.type.split('_')[0]))
         parameters = []
@@ -251,7 +250,6 @@ class ClassParser():
         metadata['parameters'] = metadata['method_name'] + '(' + ', '.join(parameters) + ')'
         return full_parameter_list, dependent_classes, instance_2_classes
 
-
     @staticmethod
     def get_field_dependencies(dependent_classes, instance_2_classes, fields):
         for f in fields:
@@ -259,15 +257,12 @@ class ClassParser():
             dependent_classes.append(f['type'])
         return dependent_classes, instance_2_classes
 
-
     @staticmethod
     def get_method_m_deps(function_node, metadata, dependent_classes, instance_2_classes, blob: str):
-        '''
+        """
         Get method dependencies of focal method.
-        :param dependent_classes: dependent classes of the focal method
-        :param instance_2_classes: variavle to Class type (or primary type)
-        '''
-        var_declars = ClassParser.get_var_declar(function_node, instance_2_classes, blob)
+        """
+        var_declares = ClassParser.get_var_declare(function_node, instance_2_classes, blob)
         invocation = []
         method_invocations = list()
         obj2method_invocations = {}
@@ -279,7 +274,7 @@ class ClassParser():
 
             obj = inv.child_by_field_name('object')
             args = inv.child_by_field_name('arguments')
-            method_inv_args_type = ClassParser.get_inv_arg_type(var_declars, args, blob)
+            method_inv_args_type = ClassParser.get_inv_arg_type(var_declares, args, blob)
             if obj is not None:
                 obj_instance = ClassParser.match_from_span(obj, blob)
                 if obj_instance not in instance_2_classes:
@@ -298,28 +293,27 @@ class ClassParser():
         metadata['m_deps'] = obj2method_invocations
 
     @staticmethod
-    def get_inv_arg_type(var_declar, arg_list, blob: str):
-        '''
+    def get_inv_arg_type(var_declare, arg_list, blob: str):
+        """
         Get argument types of an invocation in focal method body.
-        :param var_declar: declared variavles in body.
+        :param var_declare: declared variables in body.
         :param arg_list: argument list of the invocation.
-        '''
+        """
         type_list = []
         for arg_node in arg_list.named_children:
             if arg_node.type == 'identifier':
                 arg = ClassParser.match_from_span(arg_node, blob)
-                if arg in var_declar:
-                    type_list.append(var_declar[arg])
+                if arg in var_declare:
+                    type_list.append(var_declare[arg])
         return type_list
 
     @staticmethod
-    def get_var_declar(function_node, param_var_declars, blob: str):
-        '''
+    def get_var_declar(function_node, param_var_declares, blob: str):
+        """
         Get all variable declarations in this body and method's parameters.
-        :param param_var_declars: variables and thier types in method's parameters
-        '''
+        """
         var_declars = {}
-        var_declars.update(param_var_declars)
+        var_declars.update(param_var_declares)
         declar_nodes = []
         ClassParser.traverse_type(function_node, declar_nodes, 'local_variable_declaration')
         for dn in declar_nodes:
@@ -337,9 +331,9 @@ class ClassParser():
 
     @staticmethod
     def is_gs(function_node, fields):
-        '''
-        Is this method a getter or setter.
-        '''
+        """
+        Judge if a method is getter or setter.
+        """
         fields_name = [f['var_name'] for f in fields]
         ret_statements = []
         # check setter
@@ -360,10 +354,10 @@ class ClassParser():
         return False
 
     @staticmethod
-    def use_fields(function_body_node, fields, blob:str):
-        '''
+    def use_fields(function_body_node, fields, blob: str):
+        """
         If the method use any fields of the class.
-        '''
+        """
         if function_body_node is None:  # this function has no block
             return False
         fields_access_node = []
@@ -392,7 +386,6 @@ class ClassParser():
         for child in param_node.named_children:
             class_index = 0
             instance_index = 1
-            # class_name = ClassParser.match_from_span(child.child_by_field_name('type'), blob)
             if 'final' in ClassParser.match_from_span(child.named_children[0], blob):
                 class_index = 1
                 instance_index = 2

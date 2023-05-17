@@ -27,8 +27,7 @@ REPORT_FORMAT = config.get("DEFAULT", "REPORT_FORMAT")
 
 dataset_dir = config.get("DEFAULT", "dataset_dir")
 result_dir = config.get("DEFAULT", "result_dir")
-project_dir = config.get("DEFAULT", "project_dir")  # raw project dir
-projects_dir = config.get("DEFAULT", "projects_dir")  # compiled project dir
+project_dir = config.get("DEFAULT", "project_dir")
 
 api_keys = eval(config.get("openai", "api_keys"))
 model = config.get("openai", "model")

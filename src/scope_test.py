@@ -7,7 +7,6 @@ The dataset folder will contain all the information in the direction.
 from tools import *
 from askGPT import start_whole_process
 from database import database
-from parse_xml import result_analysis
 from task import Task
 from colorama import Fore, Style, init
 
@@ -25,18 +24,12 @@ def create_dataset_result_folder(direction):
     now = datetime.datetime.now()
     # format the time as a string
     time_str = now.strftime("%Y%m%d%H%M%S")
-    # Create the folder
-    dataset_path = os.path.join(dataset_dir, "scope_test%" + time_str + "%" + direction)
-    if not os.path.exists(dataset_path):
-        os.makedirs(dataset_path)
-    else:
-        raise Exception("Dataset folder already exists.")
     result_path = os.path.join(result_dir, "scope_test%" + time_str + "%" + direction)
     if not os.path.exists(result_path):
         os.makedirs(result_path)
     else:
         raise Exception("Result folder already exists.")
-    return dataset_path, result_path
+    return result_path
 
 
 def create_new_folder(folder_path: str):
@@ -49,27 +42,6 @@ def create_new_folder(folder_path: str):
         os.makedirs(folder_path)
     else:
         raise Exception("Folder already exists.")
-
-
-def copy_files_to_folder(file_list: list, src_dir: str, dst_dir: str):
-    """
-    Copy the files to the folder.
-    :param raw_data: database data
-    :param dst_dir: destination directory
-    :param src_dir: source directory
-    :param file_list: The file list to copy.
-    :return: None
-    """
-    for file in file_list:
-        src_path = os.path.join(src_dir, file)
-        new_folder_path = os.path.join(dst_dir, file.split(".")[0])
-        create_new_folder(new_folder_path)
-        dst_path = os.path.join(new_folder_path, file)
-        if not os.path.exists(src_path):
-            raise Exception("File " + file + " does not exist.")
-        if os.path.exists(dst_path):
-            raise Exception("File " + file + " already exists.")
-        os.system("cp " + src_path + " " + dst_path)
 
 
 def find_all_files(folder_path: str, method_ids: list = None):
@@ -88,7 +60,7 @@ def find_all_files(folder_path: str, method_ids: list = None):
     return file_list
 
 
-def start_generation(project_name, multiprocess=True, repair=True, confirmed=False):
+def start_generation(sql_query, multiprocess=True, repair=True, confirmed=False):
     """
     Start the scope test.
     :param multiprocess: if it needs to
@@ -103,7 +75,7 @@ def start_generation(project_name, multiprocess=True, repair=True, confirmed=Fal
     else:
         raise RuntimeError("One project at one time.")
     # delete the old result
-    remove_single_test_output_dirs(get_project_abspath(project_name))
+    remove_single_test_output_dirs(get_project_abspath())
 
     method_ids = [x[0] for x in db.select(script=sql_query)]
     if not method_ids:
@@ -123,9 +95,8 @@ def start_generation(project_name, multiprocess=True, repair=True, confirmed=Fal
         record += "Scope test purpose: " + confirm + "\n"
 
     # Create the new folder
-    dataset_path, result_path = create_dataset_result_folder("")
+    result_path = create_dataset_result_folder("")
 
-    record += "Dataset path: " + dataset_path + "\n"
     record += "Result path: " + result_path + "\n"
     record += 'SQL script: "' + sql_query + '"\n'
     record += "Included methods: " + str(method_ids) + "\n"
@@ -137,19 +108,14 @@ def start_generation(project_name, multiprocess=True, repair=True, confirmed=Fal
 
     # Find all the files
     source_dir = os.path.join(dataset_dir, "direction_1")
-    file_list = find_all_files(source_dir, method_ids)
 
-    # Copy the files to the folder
-    copy_files_to_folder(file_list, source_dir, dataset_path)
-    start_whole_process(dataset_path, multiprocess=multiprocess, repair=repair)
+    start_whole_process(source_dir, multiprocess=multiprocess, repair=repair)
     print("WHOLE PROCESS FINISHED")
     # Run accumulated tests
-    project_path = os.path.abspath(os.path.join(projects_dir, project_name))
+    project_path = os.path.abspath(project_dir)
     print("START ALL TESTS")
 
-    # start_run(result_path, project_path)
     Task.all_test(result_path, project_path)
-    # Todo save whole test result
     try:
         with open(record_path, "a") as f:
             f.write("Whole test result at: " + find_result_in_projects() + "\n")
@@ -161,6 +127,5 @@ def start_generation(project_name, multiprocess=True, repair=True, confirmed=Fal
 
 
 if __name__ == '__main__':
-    # Task.parse("../projects/Lang_1_f")
     sql_query = "SELECT id FROM method WHERE project_name='Lang_1_f' AND class_name='NumberUtils' AND is_constructor=0;"
-    start_generation(sql_query, multiprocess=multiprocess, repair=True, confirmed=False)
+    start_generation(sql_query, multiprocess=True, repair=True, confirmed=False)

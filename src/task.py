@@ -117,7 +117,6 @@ class TestTask:
                 sub_pids = find_processes_created_by(process.pid)
                 for pid in sub_pids:
                     os.kill(pid, signal.SIGTERM)
-                # print(Fore.RED + "TIME OUT!", Style.RESET_ALL)
                 break
             else:
                 time.sleep(0.1)
@@ -129,7 +128,7 @@ class TestTask:
         """
         target_path = '/root/TestGPT_ASE/projects'
         if threaded:
-            with concurrent.futures.ProcessPoolExecutor(max_workers=thread_number) as executor:
+            with concurrent.futures.ProcessPoolExecutor(max_workers=process_number) as executor:
                 for scope_tests in os.listdir(tests_src):
                     scope_tests_path = os.path.join(tests_src, scope_tests)
                     for tests_dir in os.listdir(scope_tests_path):
@@ -224,7 +223,8 @@ class ParseTask:
             self.export_result(classes[focal], json_path)
         return classes
 
-    def export_result(self, data, out):
+    @staticmethod
+    def export_result(data, out):
         """
         Exports data as json file
         """

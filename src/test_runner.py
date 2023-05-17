@@ -4,7 +4,6 @@ import subprocess
 import re
 from datetime import datetime
 from config import *
-from colorama import Fore, Style, init
 
 
 class TestRunner:
@@ -17,7 +16,6 @@ class TestRunner:
         /data/share/TestGPT_ASE/result/scope_test%20230414210243%d3_1/1460%lang_1_f%ToStringBuilder%append%d3/5 (single test)
         :param target_path: target project path
         """
-        init() # colorama init
         self.coverage_tool = tool
         self.test_path = test_path
         self.target_path = target_path
@@ -30,19 +28,14 @@ class TestRunner:
         self.COMPILE_ERROR = 0
         self.TEST_RUN_ERROR = 0
 
-        # TODO: use relative path
-
-
     def start_single_test(self):
         """
         Run a single method test case with a thread.
         tests directory path, e.g.:
         /data/share/TestGPT_ASE/result/scope_test%20230414210243%d3_1/1460%lang_1_f%ToStringBuilder%append%d3/5
         """
-        # self.test_path = single_test_src
         temp_dir = os.path.join(self.test_path, "temp")
         compiled_test_dir = os.path.join(self.test_path, "runtemp")
-        # method_id, project_name, class_name, method_name, direction, attempt_num = self.parse_test_case_info(self.test_path)
         os.makedirs(compiled_test_dir, exist_ok=True)
         try:
             self.instrument(compiled_test_dir, compiled_test_dir)
@@ -107,7 +100,6 @@ class TestRunner:
     def run_single_test(self, test_file, compiled_test_dir, compiler_output, test_output):
         """
         Run a test case.
-        :param test_file: the test_case.java file
         :return: Whether it is successful or no.
         """
         if not self.compile(test_file, compiled_test_dir, compiler_output):
@@ -129,7 +121,8 @@ class TestRunner:
             return False
         return True
 
-    def export_runtime_output(self, result, test_output_file):
+    @staticmethod
+    def export_runtime_output(result, test_output_file):
         with open(test_output_file, "w") as f:
             f.write(result.stdout)
             error_msg = result.stderr
@@ -171,14 +164,16 @@ class TestRunner:
             build_dir = os.path.join(self.target_path, self.build_dir_name)
         return build_dir
 
-    def get_package(self, test_file):
+    @staticmethod
+    def get_package(test_file):
         with open(test_file, "r") as f:
             first_line = f.readline()
 
         package = first_line.strip().replace("package ", "").replace(";", "")
         return package
 
-    def is_module(self, project_path):
+    @staticmethod
+    def is_module(project_path):
         """
         If the path has a pom.xml file and target/classes compiled, a module.
         """
@@ -227,7 +222,8 @@ class TestRunner:
                     "org.junit.platform.console.ConsoleLauncher", "--disable-banner", "--disable-ansi-colors",
                     "--fail-if-no-tests", "--details=none", "--select-class", full_test_name]
 
-    def export_classpath(self, classpath_file, classpath):
+    @staticmethod
+    def export_classpath(classpath_file, classpath):
         with open(classpath_file, 'w') as f:
             classpath = "-cp " + classpath
             f.write(classpath)
@@ -286,13 +282,13 @@ class TestRunner:
         """
         Generate runtime dependencies of a given project
         """
-        MVN_DEPENDENCE_DIR = 'target/dependency'
+        mvn_dependency_dir = 'target/dependency'
         deps = []
         if not self.has_made():
             # Run mvn command to generate dependencies
             print("Making dependency for project", self.target_path)
             subprocess.run(
-                f"mvn dependency:copy-dependencies -DoutputDirectory={MVN_DEPENDENCE_DIR} -f {self.target_path}/pom.xml",
+                f"mvn dependency:copy-dependencies -DoutputDirectory={mvn_dependency_dir} -f {self.target_path}/pom.xml",
                 shell=True,
                 stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             subprocess.run(f"mvn install -DskipTests -f {self.target_path}/pom.xml", shell=True,

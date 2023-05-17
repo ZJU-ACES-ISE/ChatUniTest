@@ -9,6 +9,16 @@ from scope_test import start_generation
 from parse_xml import result_analysis
 
 
+def clear_dataset():
+    """
+    Clear the dataset folder.
+    :return: None
+    """
+    # Delete the dataset folder
+    if os.path.exists(dataset_dir):
+        shutil.rmtree(dataset_dir)
+
+
 def run():
     """
     Generate the test cases with one-click.
@@ -23,12 +33,21 @@ def run():
     # Parse data
     parse_data(project_dir)
 
+    # clear last dataset
+    clear_dataset()
+
     # Export data for multi-process
     export_data()
 
-    # Start the whole process
     project_name = os.path.basename(os.path.normpath(project_dir))
-    start_generation(project_name=project_name, multiprocess=True, repair=True, confirmed=False)
+
+    # Modify SQL query to test the designated classes.
+    sql_query = """
+        SELECT id FROM method WHERE project_name='{}';
+    """.format(project_name)
+
+    # Start the whole process
+    start_generation(sql_query, multiprocess=True, repair=True, confirmed=False)
 
     # Export the result
     result_analysis()
