@@ -1,12 +1,6 @@
-import os
-import subprocess
-from config import *
-import math
 from tools import *
 from bs4 import BeautifulSoup
 
-success_number = 0
-java_file_number = 0
 
 def xml_to_json(result_path):
     """
@@ -135,8 +129,6 @@ def result_analysis(result_path=None):
                         fail_cnt += 1
                         if json_file_number > 3:
                             repair_failed_cnt += 1
-    global success_number
-    success_number += success_cnt
     print("Project name:        " + str(project_name))
     print("All files:           " + str(all_files_cnt))
     print("All java files:      " + str(all_java_files_cnt))
@@ -159,6 +151,5 @@ def full_analysis(directory=result_dir):
 
 if __name__ == '__main__':
     # result_analysis()
-    full_analysis("/Users/bransonsheldon/Documents/programmeFile/pythonFile/ChatTester/Defects4j_result/")
+    full_analysis("")
     # get_numberutils_result()
-    print("Success number: " + str(success_number))

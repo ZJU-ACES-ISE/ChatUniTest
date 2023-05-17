@@ -21,7 +21,6 @@ def parse_data(dir_path: str):
     for root, dirs, files in os.walk(dir_path):
         for filename in files:
             if filename.endswith('.json'):
-                # print("Start Parsing: " + filename + " ...")
                 with open(os.path.join(root, filename), "r") as f:
                     json_data = json.load(f)
 

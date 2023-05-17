@@ -1,6 +1,11 @@
-# TestGPT: A unit test generation tool based on ChatGPT
+# ChatUniTest: A ChatGPT-based unit test generation tool
 
 This is the implementation of the tool TestGPT.
+
+<video width="320" height="240" autoplay loop>
+  <source src="demo.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
 
 ## Installation

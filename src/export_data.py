@@ -21,30 +21,23 @@ def gen_file_name(method_id, project_name, class_name, method_name, direction):
         direction) + ".json"
 
 
-def create_folder(dir_path: str):
-    if not os.path.exists(os.path.join(dir_path, "direction_1")):
-        os.makedirs(os.path.join(dir_path, "direction_1"))
-    if not os.path.exists(os.path.join(dir_path, "direction_2")):
-        os.makedirs(os.path.join(dir_path, "direction_2"))
-    if not os.path.exists(os.path.join(dir_path, "direction_3")):
-        os.makedirs(os.path.join(dir_path, "direction_3"))
+def create_dataset_dirs():
+    def _create_folder(dir_path):
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
+
+    _create_folder(dataset_path)
+    _create_folder(os.path.join(dataset_path, "direction_1"))
+    _create_folder(os.path.join(dataset_path, "direction_3"))
+    _create_folder(os.path.join(dataset_path, "raw_data"))
 
 
-def export_data(d_1: True, d_2: True, d_3: True, raw_data: True):
+def export_data():
     """
     Export data from database.
-    :param d_4: if to generate data for direction_4
-    :param d_3: if to generate data for direction_3
-    :param d_2: if to generate data for direction_2
-    :param d_1: if to generate data for direction_1
-    :param dir_path: the path to save the data.
     :return: None
     """
-    create_folder(dataset_path)
-    create_folder(os.path.join(dataset_path, "direction_1"))
-    create_folder(os.path.join(dataset_path, "direction_2"))
-    create_folder(os.path.join(dataset_path, "direction_3"))
-    create_folder(os.path.join(dataset_path, "raw_data"))
+    create_dataset_dirs()
     # Get the data from database.
     sql_query = "SELECT COUNT(*) FROM method;"
     method_n = db.select(script=sql_query)[0][0]
@@ -56,7 +49,7 @@ def export_data(d_1: True, d_2: True, d_3: True, raw_data: True):
                                      "is_public"])
         if row:
             project_name, m_sig, method_name, parameters, source_code, class_name, m_deps, use_field, is_constructor, \
-            is_get_set, is_public = row[0]
+                is_get_set, is_public = row[0]
 
             if isinstance(m_deps, str):
                 m_deps = eval(m_deps)
@@ -72,124 +65,89 @@ def export_data(d_1: True, d_2: True, d_3: True, raw_data: True):
                 c_deps = eval(c_deps)
                 c_deps = list(set(c_deps))
 
-            if d_1:
-                # Direction 1: imports + fc + c + f + fm + m
-                json_data = {"focal_method": method_name, "class_name": class_name, "information": ""}
-                direction_1 = ""
-                if package:
-                    direction_1 += package + "\n" + "\n"
-                if imports:  # imports
-                    direction_1 += imports + "\n"
-                if c_sig:  # c
-                    direction_1 += c_sig + "{\n"
+            # Direction 1: imports + fc + c + f + fm + m
+            json_data = {"focal_method": method_name, "class_name": class_name, "information": ""}
+            direction_1 = ""
+            if package:
+                direction_1 += package + "\n" + "\n"
+            if imports:  # imports
+                direction_1 += imports + "\n"
+            if c_sig:  # c
+                direction_1 += c_sig + "{\n"
 
-                # Add fm
-                direction_1 += source_code + "\n"
+            # Add fm
+            direction_1 += source_code + "\n"
 
-                if fields:  # f
-                    direction_1 += fields + "\n"
+            if fields:  # f
+                direction_1 += fields + "\n"
 
-                # Merge all methods
-                methods = [x[0] for x in db.select(table_name="method",
-                                                   conditions={"class_name": class_name,
-                                                               "project_name": project_name},
-                                                   result_cols=["signature"])]
-                methods.remove(m_sig)
-                methods = "\n".join(methods)
-                direction_1 += methods + "\n}"
+            # Merge all methods
+            methods = [x[0] for x in db.select(table_name="method",
+                                               conditions={"class_name": class_name,
+                                                           "project_name": project_name},
+                                               result_cols=["signature"])]
+            methods.remove(m_sig)
+            methods = "\n".join(methods)
+            direction_1 += methods + "\n}"
 
-                json_data["information"] = direction_1
-                save_name = gen_file_name(method_id, project_name, class_name, method_name, 1)
-                with open(os.path.join(dataset_path, "direction_1", save_name), "w") as f:
-                    json.dump(json_data, f)
-                print(save_name, "success!")
+            json_data["information"] = direction_1
+            save_name = gen_file_name(method_id, project_name, class_name, method_name, 1)
+            with open(os.path.join(dataset_path, "direction_1", save_name), "w") as f:
+                json.dump(json_data, f)
+            print(save_name, "success!")
 
-            if d_2:
-                # Direction 2: fc + c + f + fm + m
-                # AND + c_deps + m_deps
-                direction_2 = {"c_deps": {}, "m_deps": {}, "full_fm": "", "focal_method": m_sig,
-                               "class_name": class_name}
+            # Direction 3: imports + fc + c + f + fm + m
+            # AND + c_deps + m_deps
+            direction_3 = {"c_deps": {}, "m_deps": {}, "full_fm": "", "focal_method": m_sig,
+                           "class_name": class_name}
 
-                other_methods_list = []
-                if "this" in m_deps:  # Get the methods(parameters) in same class
-                    for method in m_deps["this"]:
-                        if method not in other_methods_list:
-                            other_methods_list.append(method)
+            other_methods_list = []
+            if "this" in m_deps:  # Get the methods(parameters) in same class
+                for method in m_deps["this"]:
+                    if method not in other_methods_list:
+                        other_methods_list.append(method)
 
-                # Generate full context for focal method
-                direction_2["full_fm"] = gen_full_context(project_name, class_name, method_id, other_methods_list,
-                                                          add_imports=False)
+            # Generate full context for focal method
+            direction_3["full_fm"] = gen_full_context(project_name, class_name, method_id, other_methods_list)
 
-                # Generate detailed relative signatures for method's dependencies
-                for dep in m_deps:
-                    if dep not in direction_2["m_deps"]:
-                        if class_in_project(dep, project_name):
-                            direction_2["m_deps"][dep] = gen_required_sigs(project_name, dep, m_deps[dep])
+            # Generate detailed relative signatures for method's dependencies
+            for dep in m_deps:
+                if dep not in direction_3["m_deps"]:
+                    if class_in_project(dep, project_name):
+                        direction_3["m_deps"][dep] = gen_required_sigs(project_name, dep, m_deps[dep])
 
-                # Generate constructor's information for class's dependencies
-                for dep in c_deps:
-                    # Exclude class existed in m_deps, because they are already processed above.
-                    if dep not in direction_2["c_deps"] and dep not in direction_2["m_deps"]:
-                        if class_in_project(dep, project_name):
-                            direction_2["c_deps"][dep] = gen_min_sigs(project_name, dep)
+            # Generate constructor's information for class's dependencies
+            for dep in c_deps:
+                # Exclude class existed in m_deps, because they are already processed above.
+                if dep not in direction_3["c_deps"] and dep not in direction_3["m_deps"]:
+                    if class_in_project(dep, project_name):
+                        direction_3["c_deps"][dep] = gen_min_sigs(project_name, dep)
 
-                save_name = gen_file_name(method_id, project_name, class_name, method_name, 2)
-                with open(os.path.join(dataset_path, "direction_2", save_name), "w") as f:
-                    json.dump(direction_2, f)
-                print(save_name, "success!")
-            if d_3:
-                # Direction 3: imports + fc + c + f + fm + m
-                # AND + c_deps + m_deps
-                direction_3 = {"c_deps": {}, "m_deps": {}, "full_fm": "", "focal_method": m_sig,
-                               "class_name": class_name}
+            save_name = gen_file_name(method_id, project_name, class_name, method_name, 3)
+            with open(os.path.join(dataset_path, "direction_3", save_name), "w") as f:
+                json.dump(direction_3, f)
+            print(save_name, "success!")
 
-                other_methods_list = []
-                if "this" in m_deps:  # Get the methods(parameters) in same class
-                    for method in m_deps["this"]:
-                        if method not in other_methods_list:
-                            other_methods_list.append(method)
-
-                # Generate full context for focal method
-                direction_3["full_fm"] = gen_full_context(project_name, class_name, method_id, other_methods_list)
-
-                # Generate detailed relative signatures for method's dependencies
-                for dep in m_deps:
-                    if dep not in direction_3["m_deps"]:
-                        if class_in_project(dep, project_name):
-                            direction_3["m_deps"][dep] = gen_required_sigs(project_name, dep, m_deps[dep])
-
-                # Generate constructor's information for class's dependencies
-                for dep in c_deps:
-                    # Exclude class existed in m_deps, because they are already processed above.
-                    if dep not in direction_3["c_deps"] and dep not in direction_3["m_deps"]:
-                        if class_in_project(dep, project_name):
-                            direction_3["c_deps"][dep] = gen_min_sigs(project_name, dep)
-
-                save_name = gen_file_name(method_id, project_name, class_name, method_name, 3)
-                with open(os.path.join(dataset_path, "direction_3", save_name), "w") as f:
-                    json.dump(direction_3, f)
-                print(save_name, "success!")
-            if raw_data:
-                raw_data = {
-                    "id": method_id,
-                    "project_name": project_name,
-                    "signature": m_sig,
-                    "method_name": method_name,
-                    "parameters": parameters,
-                    "source_code": source_code,
-                    "class_name": class_name,
-                    "dependencies": m_deps,
-                    "use_field": use_field,
-                    "is_constructor": is_constructor,
-                    "is_get_set": is_get_set,
-                    "is_public": is_public,
-                    "package": package,
-                    "imports": imports
-                }
-                save_name = gen_file_name(method_id, project_name, class_name, method_name, "raw")
-                with open(os.path.join(dataset_path, "raw_data", save_name), "w") as f:
-                    json.dump(raw_data, f)
-                print(save_name, "success!")
+            raw_data = {
+                "id": method_id,
+                "project_name": project_name,
+                "signature": m_sig,
+                "method_name": method_name,
+                "parameters": parameters,
+                "source_code": source_code,
+                "class_name": class_name,
+                "dependencies": m_deps,
+                "use_field": use_field,
+                "is_constructor": is_constructor,
+                "is_get_set": is_get_set,
+                "is_public": is_public,
+                "package": package,
+                "imports": imports
+            }
+            save_name = gen_file_name(method_id, project_name, class_name, method_name, "raw")
+            with open(os.path.join(dataset_path, "raw_data", save_name), "w") as f:
+                json.dump(raw_data, f)
+            print(save_name, "success!")
 
 
 def gen_min_sigs(project_name: str, class_name: str) -> str:
@@ -262,8 +220,6 @@ def gen_required_sigs(project_name: str, class_name: str, methods_list: list):
         full_text += cons[0] + "\n"
 
     # prepare methods' signatures
-    # TODO if token limit allows, in the future it will be full context
-    # TODO revise !!!!!!!!!
     for parameters in methods_list:
         m_sig = db.select(table_name="method",
                           conditions={"project_name": project_name,
@@ -341,7 +297,6 @@ def gen_full_context(project_name: str, class_name: str, method_id: int, dep_met
     if row[0][0]:
         use_field = True
     fm_code += row[0][1] + "\n"
-    # TODO revise !!!!!!!!!
     for dep in dep_methods:  # Judge if focal methods use field
         rows = db.select(table_name="method",
                          conditions={"project_name": project_name, "class_name": class_name,
@@ -396,9 +351,8 @@ def class_in_project(class_name: str, project_name: str):
                     result_cols=["class_path"])
     if row:
         return True
-    else:
-        return False
+    return False
 
 
 if __name__ == '__main__':
-    export_data(d_1=True, d_2=True, d_3=True, raw_data=True)
+    export_data()

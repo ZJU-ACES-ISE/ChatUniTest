@@ -1,12 +1,9 @@
-import os
 import subprocess
-import re
 import signal
-import psutil
 import time
 import concurrent.futures
-from TestRunner import TestRunner
-from ClassParser import ClassParser
+from test_runner import TestRunner
+from class_parser import ClassParser
 from tools import *
 from config import *
 from colorama import Fore, init
@@ -42,7 +39,7 @@ class Task:
 class TestTask:
 
     def __init__(self, test_path, target_path):
-        init() # colorama init
+        init()  # colorama init
         self.test_path = test_path
         self.target_path = target_path
         self.runner = TestRunner(test_path, target_path)
@@ -60,7 +57,7 @@ class TestTask:
             raise Exception(Fore.RED + "Wrong java version! Need: java 11")
         # if self.target_path.endswith('_f') or self.target_path.endswith('_b'): # defects4j project
         #     self.start_d4j()
-        else: # general project
+        else:  # general project
             self.runner.start_single_test()
 
     def all_test(self):
@@ -98,7 +95,8 @@ class TestTask:
         d4j_script = 'scripts/d4j_test.sh'
         test_case_src = os.path.join(self.test_path, "temp")
 
-        process = subprocess.Popen(["bash", d4j_script, test_case_src, self.target_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        process = subprocess.Popen(["bash", d4j_script, test_case_src, self.target_path], stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE)
         stdout, stderr = process.communicate()
         start_time = time.monotonic()
         while True:
@@ -233,6 +231,3 @@ class ParseTask:
         with open(out, "w") as text_file:
             data_json = json.dumps(data)
             text_file.write(data_json)
-
-
-

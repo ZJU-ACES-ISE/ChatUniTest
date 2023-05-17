@@ -8,22 +8,26 @@ import concurrent.futures
 import javalang
 import jinja2
 from colorama import Fore, Style, init
-from Task import Task
+from task import Task
 
 init()
 # Create a jinja2 environment
 env = jinja2.Environment(loader=jinja2.FileSystemLoader('../prompt'))
 
-def ask_chatgpt_thread(idx, messages, save_path):
+
+def ask_chatgpt(messages, save_path):
     """
-    Threaded version of ask_chatgpt
+    Send messages to GPT, and save its response.
+    :param messages: The messages to send to OpenAI.
+    :param save_path: The path to save the result.
     :return: [{"role":"user","content":"..."}]
     """
-    # print(get_current_time(), idx, "Started...")
     # Send a request to OpenAI
-    if get_messages_tokens(messages) > MAX_PROMPT_TOKENS:  # no need to send request
+    # Max prompt token exceeded, no need to send request.
+    if get_messages_tokens(messages) > MAX_PROMPT_TOKENS:
         return False
     openai.api_key = random.choice(api_keys)
+    # Retry 5 times when error occurs
     max_try = 5
     while max_try:
         try:
@@ -35,13 +39,13 @@ def ask_chatgpt_thread(idx, messages, save_path):
                                                       presence_penalty=presence_penalty)
             with open(save_path, "w") as f:
                 json.dump(completion, f)
-            # print(get_current_time(), idx, "Finished!")
             return True
         except Exception as e:
-            print(Fore.RED + e, Style.RESET_ALL)
+            print(Fore.RED + str(e), Style.RESET_ALL)
             if "This model's maximum context length is 4097 tokens." in str(e):
                 break
             time.sleep(10)
+            # If rate limit reached we wait a random sleep time
             if "Rate limit reached" in str(e):
                 sleep_time = random.randint(60, 120)
                 time.sleep(sleep_time)
@@ -49,27 +53,11 @@ def ask_chatgpt_thread(idx, messages, save_path):
     return False
 
 
-def ask_chatgpt(messages):
-    """
-    Single thread ask chatgpt.
-    :param messages: [{"role":"user","content":"..."}]
-    :return:
-    """
-    openai.api_key = random.choice(api_keys)
-    completion = openai.ChatCompletion.create(messages=messages,
-                                              model=model,
-                                              temperature=temperature,
-                                              top_p=top_p,
-                                              frequency_penalty=frequency_penalty,
-                                              presence_penalty=presence_penalty)
-    return completion
-
-
 def generate_prompt(template_name, context: dict):
     """
     Generate prompt via jinja2 engine
-    :param template_name:
-    :param context:
+    :param template_name: the name of the prompt template
+    :param context: the context to render the template
     :return:
     """
     # Load template
@@ -79,59 +67,33 @@ def generate_prompt(template_name, context: dict):
     return prompt
 
 
-def generate_messages(template_name, context_file: (str, dict)):
-    """
-    You can modify this function or create new function to add more information
-    :param template_name:
-    :param context_file:
-    :return:
-    """
+def load_context_file(context_file):
     if isinstance(context_file, str):
         with open(context_file, "r") as f:
-            context = json.load(f)
-    else:
-        context = context_file
+            return json.load(f)
+    return context_file
+
+
+def generate_messages(template_name, context_file):
+    """
+    This function generates messages before asking GPT, using user and system templates.
+    :param template_name: The template name of the user template.
+    :param context_file: The context JSON file or dict to render the template.
+    :return: A list of generated messages.
+    """
+    context = load_context_file(context_file)
     messages = []
-    system_name = template_name.split(".")[0] + "_system" + ".jinja2"
-    if os.path.exists(os.path.join("../prompt", system_name)):
+
+    system_name = f"{template_name.split('.')[0]}_system.jinja2"
+    system_path = os.path.join("../prompt", system_name)
+    if os.path.exists(system_path):
         system_message = generate_prompt(system_name, {})
         messages.append({"role": "system", "content": system_message})
-    content = generate_prompt(template_name, context)
-    messages.append({"role": "user", "content": content})
+
+    user_message = generate_prompt(template_name, context)
+    messages.append({"role": "user", "content": user_message})
 
     return messages
-
-
-def start_generation(dataset_dir, template_name, result_dir):  # For scope test only
-    if not os.path.exists(dataset_dir):
-        raise RuntimeError("Dataset path not found!")
-    if not os.path.exists(result_dir):
-        os.makedirs(result_dir)
-
-    # Get a list of all file paths
-    file_paths = []
-    for root, dirs, files in os.walk(dataset_dir):
-        for file in files:
-            if file.endswith(".json"):
-                file_paths.append(os.path.join(root, file))
-
-    # Create a thread pool with maximum of thread_number
-    with concurrent.futures.ThreadPoolExecutor(max_workers=thread_number) as executor:
-        for idx, file_path in enumerate(file_paths):
-            messages = generate_messages(template_name, file_path)
-            # print(messages)
-            base_dir, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
-            for test_n in range(1, test_number + 1):
-                # Create subdirectories for each test
-                current_dir = os.path.join(base_dir, str(test_n))
-                if not os.path.exists(current_dir):
-                    os.makedirs(current_dir)
-                save_path = os.path.join(current_dir, base_name[:-5] + "_" + str(test_n) + ".json")
-                if os.path.exists(save_path):
-                    print(file_path, "Already exist. Skipped!")
-                    continue
-                executor.submit(ask_chatgpt_thread, str(idx) + "_test_" + str(test_n), messages, save_path)
-    print("Main thread executing!")
 
 
 def complete_code(code):
@@ -224,22 +186,18 @@ def is_syntactic_correct(code):
         javalang.parse.parse(code)
         return True
     except Exception as e:
-        # print(e)
         return False
 
 
 def extract_code(string):
     """
-    Check if the string is valid code
+    Check if the string is valid code and extract it.
     :param string:
     :return: has_code, extracted_code, has_syntactic_error
     """
     # if the string is valid code, return True
-    try:
-        javalang.parse.parse(string)
+    if is_syntactic_correct(string):
         return True, string, False
-    except Exception as E:
-        pass
 
     has_code = False
     extracted_code = ""
@@ -387,12 +345,14 @@ def remain_prompt_tokens(messages):
     return MAX_PROMPT_TOKENS - get_messages_tokens(messages)
 
 
-def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
+def whole_process(test_num, base_dir, repair, submits, total):
     """
-    Threaded version of start_generation
-    :param save_dir:
+    Multiprocess version of start_generation
+    :param test_num:
+    :param base_dir:
     :param repair:
-    :param thread_id:
+    :param submits:
+    :param total:
     :return:
     """
     progress = '[' + str(submits) + ' / ' + str(total) + ']'
@@ -472,7 +432,8 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                         error_mes = process_error_message(last_round_result["runtime_error"], allow_tokens)
                         context["error_message"] = error_mes
                 else:
-                    print(progress, Fore.RED + method_id, "Tokens not enough, test fatal error...", Style.RESET_ALL)  # Fatal error
+                    print(progress, Fore.RED + method_id, "Tokens not enough, test fatal error...",
+                          Style.RESET_ALL)  # Fatal error
                     break
                 if "compile_error" not in last_round_result and "runtime_error" not in last_round_result:
                     print(progress, Fore.RED + method_id, "Timeout error, test fatal error...", Style.RESET_ALL)
@@ -510,7 +471,7 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                             break
                 # print(Fore.BLUE, messages[1]['content'], Style.RESET_ALL)
 
-            status = ask_chatgpt_thread(thread_id, messages, gpt_file_name)
+            status = ask_chatgpt(messages, gpt_file_name)
             if not status:
                 print(progress, Fore.RED + 'OpenAI Fail processing messages', Style.RESET_ALL)
                 break
@@ -520,17 +481,18 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
 
             # 2. Extract information from GPT, and RUN save the result
             steps += 1
-            # print(progress, method_id, "test_" + str(test_num), "Extracting information", "rounds", rounds)
+
             raw_file_name = os.path.join(save_dir, str(steps) + "_raw_" + str(rounds) + ".json")
 
-            # run test. save the result in raw_file_name
+            # extract the test and save the result in raw_file_name
             input_string = gpt_result["choices"][0]['message']["content"]
             test_passed, fatal_error = extract_and_run(input_string, raw_file_name, class_name, method_id, test_num,
                                                        project_name,
                                                        package)
 
             if test_passed:
-                print(progress, Fore.GREEN + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "test passed",
+                print(progress, Fore.GREEN + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds,
+                      "test passed",
                       Style.RESET_ALL)
                 break
 
@@ -554,15 +516,18 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
                                                        project_name,
                                                        package)
             if test_passed:
-                print(progress, Fore.GREEN + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "test passed",
+                print(progress, Fore.GREEN + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds,
+                      "test passed",
                       Style.RESET_ALL)
                 break
             if fatal_error:
-                print(progress, Fore.RED + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds, "fatal error",
+                print(progress, Fore.RED + method_id, "test_" + str(test_num), "steps", steps, "rounds", rounds,
+                      "fatal error",
                       Style.RESET_ALL)
                 break
 
-            print(progress, Fore.YELLOW + method_id, "test_" + str(test_num), "Test failed, fixing...", "rounds", rounds,
+            print(progress, Fore.YELLOW + method_id, "test_" + str(test_num), "Test failed, fixing...", "rounds",
+                  rounds,
                   Style.RESET_ALL)
             if not repair:  # If we do not want to repair the code, we don't need to second round
                 break
@@ -573,11 +538,11 @@ def whole_process_thread(thread_id, test_num, base_dir, repair, submits, total):
         shutil.rmtree(run_temp_dir)
 
 
-def start_whole_process(source_dir, threaded=False, repair=True):
+def start_whole_process(source_dir, multiprocess=False, repair=True):
     """
     Start repair process
     :param repair:  Whether to repair the code
-    :param threaded: Whether to use multi-threading
+    :param multiprocess: Whether to use multiprocess
     :param source_dir: The directory of the dataset or scoped dataset.
     :return:
     """
@@ -590,34 +555,20 @@ def start_whole_process(source_dir, threaded=False, repair=True):
 
     submits = 0
     total = len(file_paths) * test_number
-    if threaded:
-        print("Multi threads executing!")
-        # Create a thread pool with maximum of thread_number
-        with concurrent.futures.ProcessPoolExecutor(max_workers=thread_number) as executor:
+    if multiprocess:
+        print("Multi process executing!")
+        # Create a process pool with maximum of process_number
+        with concurrent.futures.ProcessPoolExecutor(max_workers=process_number) as executor:
             for idx, file_path in enumerate(file_paths):
                 base_dir, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
                 for test_num in range(1, test_number + 1):
                     submits += 1
-                    executor.submit(whole_process_thread, str(idx) + "_test", test_num, base_dir, repair, submits, total)
-        print("Main thread executing!")
+                    executor.submit(whole_process, test_num, base_dir, repair, submits, total)
+        print("Main process executing!")
     else:
-        print("Single thread executing!")
+        print("Single process executing!")
         for idx, file_path in enumerate(file_paths):
             base_dir, base_name = os.path.split(file_path.replace("/dataset/", "/result/"))
             for test_num in range(1, test_number + 1):
                 submits += 1
-                whole_process_thread(str(idx) + "_test_", test_num, base_dir, repair, submits, total)
-
-
-if __name__ == '__main__':
-    dataset_directory = '../dataset/test_04091730_d1'
-    result_directory = '../result/test_04091730_d1'
-    template_file = 'd1_1.jinja2'
-    print("Dataset directory:", dataset_directory)
-    print("Result directory:", result_directory)
-    confirm = input("Are you sure to continue? (y/n) ")
-    if confirm == "y":
-        start_generation(dataset_directory, template_file, result_directory)
-        print("Finished!")
-    else:
-        print("Canceled!")
+                whole_process(test_num, base_dir, repair, submits, total)

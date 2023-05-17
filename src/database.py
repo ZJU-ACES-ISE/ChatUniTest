@@ -31,6 +31,13 @@ class database(object):
         )
         self.cursor = self.db.cursor()
 
+    def execute(self, script):
+        if script is None:
+            return
+        if self.db is None:
+            self.connect()
+        self.cursor.execute(script)
+
     def select(self, table_name: str = "", conditions=None, result_cols: (str, list) = "*", script=None):
         if self.db is None:
             self.connect()
@@ -115,3 +122,53 @@ class database(object):
         script = f"UPDATE {table_name} SET {set_clause} WHERE {where_clause}"
         self.cursor.execute(script, all_values)
         self.db.commit()
+
+
+def create_table():
+    """
+    Create table method and class if they do not exist.
+    """
+    db = database()
+    sql_script = """
+        CREATE TABLE IF NOT EXISTS `class` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `project_name` VARCHAR(255) NOT NULL,
+        `class_name` VARCHAR(255) NOT NULL,
+        `class_path` VARCHAR(255) NOT NULL,
+        `signature` TEXT NOT NULL,
+        `super_class` TEXT NULL,
+        `package` TEXT NULL,
+        `imports` TEXT NULL,
+        `fields` LONGTEXT NULL,
+        `has_constructor` TINYINT(1) NOT NULL,
+        `dependencies` TEXT NULL,
+        CONSTRAINT `project_name` UNIQUE (`project_name`, `class_name`)
+    );
+        CREATE TABLE IF NOT EXISTS `method` (
+        `id` INT AUTO_INCREMENT PRIMARY KEY,
+        `project_name` VARCHAR(255) NOT NULL,
+        `signature` TEXT NOT NULL,
+        `method_name` VARCHAR(255) NOT NULL,
+        `parameters` TEXT NOT NULL,
+        `source_code` LONGTEXT NOT NULL,
+        `class_name` VARCHAR(255) NOT NULL,
+        `dependencies` LONGTEXT NULL,
+        `use_field` TINYINT(1) NOT NULL,
+        `is_constructor` TINYINT(1) NOT NULL,
+        `is_get_set` TINYINT(1) NOT NULL,
+        `is_public` TINYINT(1) NOT NULL
+    );
+    """
+    db.execute(sql_script)
+
+
+def drop_table():
+    """
+    Truncate table method and class if they do exist.
+    """
+    db = database()
+    sql_script = """
+        DROP TABLE `class`;
+        DROP TABLE `method`;
+    """
+    db.execute(sql_script)

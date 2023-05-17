@@ -4,7 +4,7 @@ import configparser
 config = configparser.ConfigParser()
 config.read("../config/config.ini")
 
-thread_number = eval(config.get("DEFAULT", "thread_number"))
+process_number = eval(config.get("DEFAULT", "process_number"))
 test_number = eval(config.get("DEFAULT", "test_number"))
 max_rounds = eval(config.get("DEFAULT", "max_rounds"))
 MAX_PROMPT_TOKENS = eval(config.get("DEFAULT", "MAX_PROMPT_TOKENS"))
@@ -27,7 +27,8 @@ REPORT_FORMAT = config.get("DEFAULT", "REPORT_FORMAT")
 
 dataset_dir = config.get("DEFAULT", "dataset_dir")
 result_dir = config.get("DEFAULT", "result_dir")
-projects_dir = config.get("DEFAULT", "projects_dir")
+project_dir = config.get("DEFAULT", "project_dir")  # raw project dir
+projects_dir = config.get("DEFAULT", "projects_dir")  # compiled project dir
 
 api_keys = eval(config.get("openai", "api_keys"))
 model = config.get("openai", "model")

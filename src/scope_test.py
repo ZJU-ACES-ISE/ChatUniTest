@@ -5,10 +5,10 @@ The folder format is "scope_test_YYYYMMDDHHMMSS_Direction".
 The dataset folder will contain all the information in the direction.
 """
 from tools import *
-from askGPT import start_generation, start_whole_process
+from askGPT import start_whole_process
 from database import database
 from parse_xml import result_analysis
-from Task import Task
+from task import Task
 from colorama import Fore, Style, init
 
 init()
@@ -70,7 +70,6 @@ def copy_files_to_folder(file_list: list, src_dir: str, dst_dir: str):
         if os.path.exists(dst_path):
             raise Exception("File " + file + " already exists.")
         os.system("cp " + src_path + " " + dst_path)
-        # subprocess.call(['cp', src_path, dst_path])
 
 
 def find_all_files(folder_path: str, method_ids: list = None):
@@ -89,44 +88,10 @@ def find_all_files(folder_path: str, method_ids: list = None):
     return file_list
 
 
-def start_scope_test(sql_query: str, template_file: str):
+def start_generation(project_name, multiprocess=True, repair=True, confirmed=False):
     """
     Start the scope test.
-    :param sql_query:
-    :param template_file:
-    :return:
-    """
-    method_ids = [x[0] for x in db.select(script=sql_query)]
-    if method_ids is None:
-        raise Exception("Method ids cannot be None.")
-    if not isinstance(method_ids[0], str):
-        method_ids = [str(i) for i in method_ids]
-
-    direction = template_file.split("_")[0]
-    print("The following methods will be tested: " + str(method_ids) + ".")
-    print("The direction is " + str(direction) + ".")
-    print("The approximate cost will be $", len(method_ids) * 0.0027 * test_number, ".")
-    confirm = input("Are you sure to start the scope test? (y/n): ")
-    if confirm != "y":
-        print("Scope test cancelled.")
-        return
-
-    # Create the new folder
-    dataset_path, result_path = create_dataset_result_folder(template_file.split(".")[0])
-
-    # Find all the files
-    source_dir = os.path.join(dataset_dir, "direction_" + str(direction[1:]))
-    file_list = find_all_files(source_dir, method_ids)
-
-    # Copy the files to the folder
-    copy_files_to_folder(file_list, source_dir, dataset_path)
-    start_generation(dataset_path, template_file, result_path)
-
-
-def start_scope_test_repair(sql_query: str, threaded=True, repair=True, confirmed=False):
-    """
-    Start the scope test.
-    :param threaded:
+    :param multiprocess: if it needs to
     :param repair:
     :param sql_query:
     :return:
@@ -146,9 +111,8 @@ def start_scope_test_repair(sql_query: str, threaded=True, repair=True, confirme
     if not isinstance(method_ids[0], str):
         method_ids = [str(i) for i in method_ids]
     print("You are about to start the whole process of scope test.")
-    # print("The following methods will be tested: " + str(method_ids) + ".")
-    print("The number of methods is ", len(method_ids) + ".")
-    print("The approximate cost will be" + Fore.RED + "$", len(method_ids) * 0.11 * test_number, ".", Style.RESET_ALL)
+    print("The number of methods is ", len(method_ids), ".")
+    print("The approximate cost will be" + Fore.RED + "$", len(method_ids) * 0.0184 * test_number, ".", Style.RESET_ALL)
     record = "This is a record of a scope test.\n"
     if not confirmed:
         confirm = input("Are you sure to start the scope test? (y/n): ")
@@ -177,7 +141,7 @@ def start_scope_test_repair(sql_query: str, threaded=True, repair=True, confirme
 
     # Copy the files to the folder
     copy_files_to_folder(file_list, source_dir, dataset_path)
-    start_whole_process(dataset_path, threaded=threaded, repair=repair)
+    start_whole_process(dataset_path, multiprocess=multiprocess, repair=repair)
     print("WHOLE PROCESS FINISHED")
     # Run accumulated tests
     project_path = os.path.abspath(os.path.join(projects_dir, project_name))
@@ -198,8 +162,5 @@ def start_scope_test_repair(sql_query: str, threaded=True, repair=True, confirme
 
 if __name__ == '__main__':
     # Task.parse("../projects/Lang_1_f")
-    # exit()
-
     sql_query = "SELECT id FROM method WHERE project_name='Lang_1_f' AND class_name='NumberUtils' AND is_constructor=0;"
-    start_scope_test_repair(sql_query, threaded=True, repair=True, confirmed=False)
-    exit()
+    start_generation(sql_query, multiprocess=multiprocess, repair=True, confirmed=False)
