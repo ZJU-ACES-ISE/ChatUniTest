@@ -85,7 +85,8 @@ class TestRunner:
                     continue
                 total_compile += 1
                 try:
-                    self.run_single_test(test_case_file, compiled_test_dir, compiler_output, test_output)
+                    test_file = os.path.join(tests, test_case_file)
+                    self.run_single_test(test_file, compiled_test_dir, compiler_output, test_output)
                 except Exception as e:
                     print(e)
             self.report(compiled_test_dir, os.path.join(report_dir, str(t)))

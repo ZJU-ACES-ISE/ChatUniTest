@@ -47,7 +47,7 @@ def run():
 
     # Modify SQL query to test the designated classes.
     sql_query = """
-        SELECT id FROM method WHERE project_name='{}';
+        SELECT id FROM method WHERE project_name='{}' LIMIT 5;
     """.format(project_name)
 
     # Start the whole process
