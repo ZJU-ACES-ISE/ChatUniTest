@@ -99,7 +99,7 @@ def parse_file_name(filename):
     return m_id, project_name, class_name, method_name, direction, test_num.split('.')[0]
 
 
-def parse_directory_name(directory):
+def parse_file_name(directory):
     dir_name = os.path.basename(directory)
     m_id, project_name, class_name, method_name, invalid = dir_name.split('%')
     return m_id, project_name, class_name, method_name
@@ -165,7 +165,7 @@ def get_finished_project():
                 if os.path.isdir(os.path.join(sub_dir, dir)):
                     child_dir = dir
                     break
-            m_id, project_name, class_name, method_name = parse_directory_name(child_dir)
+            m_id, project_name, class_name, method_name = parse_file_name(child_dir)
             if project_name not in projects:
                 projects.append(project_name)
     return projects

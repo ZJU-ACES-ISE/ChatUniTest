@@ -363,7 +363,7 @@ def whole_process(test_num, base_name, base_dir, repair, submits, total):
     run_temp_dir = os.path.join(save_dir, "runtemp")
 
     steps, rounds = 0, 0
-    method_id, project_name, class_name, method_name = parse_directory_name(base_name)
+    method_id, project_name, class_name, method_name = parse_file_name(base_name)
 
     # 1. Get method data
     with open(get_dataset_path(method_id, project_name, class_name, method_name, "raw"), "r") as f:

@@ -133,7 +133,7 @@ class TestTask:
                     scope_tests_path = os.path.join(tests_src, scope_tests)
                     for tests_dir in os.listdir(scope_tests_path):
                         tests_path = os.path.join(scope_tests_path, tests_dir)
-                        m_id, project_name, class_name, method_name = parse_directory_name(tests_path)
+                        m_id, project_name, class_name, method_name = parse_file_name(tests_path)
                         project_path = os.path.join(target_path, project_name.replace('_f', '_b'))
                         self.target_path = project_path
                         for i in range(1, test_number + 1):
@@ -148,7 +148,7 @@ class TestTask:
                 scope_tests_path = os.path.join(tests_src, scope_tests)
                 for tests_dir in os.listdir(scope_tests_path):
                     tests_path = os.path.join(scope_tests_path, tests_dir)
-                    m_id, project_name, class_name, method_name = parse_directory_name(tests_path)
+                    m_id, project_name, class_name, method_name = parse_file_name(tests_path)
                     project_path = os.path.join(target_path, project_name.replace('_f', '_b'))
                     self.target_path = project_path
                     for i in range(1, test_number + 1):
@@ -182,12 +182,6 @@ class ParseTask:
         Find all classes exclude tests
         Finds test cases using @Test annotation
         """
-        # Move to folder
-        # pwd = os.getcwd()
-        # if os.path.exists(target_path):
-            # os.chdir(target_path)
-        # else:
-            # return 0, 0, 0, 0
         if not os.path.exists(target_path):
             return 0, 0, 0, 0
         # Test Classes
@@ -200,11 +194,8 @@ class ParseTask:
         try:
             result = subprocess.check_output(['find', target_path, '-name', '*.java'])
             java = result.decode('ascii').splitlines()
-            # java = [j.replace("./", "") for j in java]
         except:
-            # os.chdir(pwd)
             return 0, 0, 0, 0
-        # os.chdir(pwd)
         # All Classes exclude tests
         focals = list(set(java) - set(tests))
         focals = [f for f in focals if not "src/test" in f]
