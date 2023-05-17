@@ -1,8 +1,24 @@
 # ChatUniTest: A ChatGPT-based unit test generation tool
 
-This is the implementation of the tool TestGPT.
+This is the implementation of the tool [ChatUniTest](https://arxiv.org/abs/2305.04764).
+
+```
+@misc{xie2023chatunitest,
+      title={ChatUniTest: a ChatGPT-based automated unit test generation tool}, 
+      author={Zhuokui Xie and Yinghao Chen and Chen Zhi and Shuiguang Deng and Jianwei Yin},
+      year={2023},
+      eprint={2305.04764},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE}
+}
+```
 
 ![Alt Text](demo.gif)
+
+## License
+
+The project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
 
 ## Installation
 
