@@ -17,13 +17,10 @@ Our work has been submitted to arXiv. Check it out here: [ChatUniTest](https://a
 
 ![Alt Text](demo.gif)
 
----
-
 ## License
 
 The project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
----
 
 ## Step 1 : installation
 First make sure you run this program in a Linux system with mysql installed.
@@ -97,8 +94,6 @@ password = xxxx # Password
 
 Then, wait for the process to finish. The result is saved in the result directory.
 
----
-
 ## Structure
 
 ### config
@@ -142,3 +137,8 @@ The nested structure of the result directory is as follows:
 
 ### src
 This is the directory that stores the source code.
+
+## Contact us
+If you have any question or require our experimental result, feel free to contact us, our e-mails are:
+1. yh_ch@zju.edu.cn
+2. xiezhuokui@zju.edu.cn
