@@ -32,8 +32,7 @@ def run():
     create_table()
 
     # Parse project
-    # info_path = Task.parse(project_dir)
-    info_path = "/Users/chenyi/Desktop/ChatTester/TestGPT_ASE/information/Lang_1_f"
+    info_path = Task.parse(project_dir)
 
     # Parse data
     parse_data(info_path)
