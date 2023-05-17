@@ -146,5 +146,5 @@ Our work has been submitted to arXiv. Check it out here: [ChatUniTest](https://a
 
 If you have any questions or would like to inquire about our experimental results, please feel free to contact us via email. The email addresses of the authors are as follows:
 
-1. Corresponding author: `zjuzhichen@zju.edu.cn`
-2. Author: `xiezhuokui@zju.edu.cn`, `yh_ch@zju.edu.cn`
+1. Corresponding author: `zjuzhichen AT zju.edu.cn`
+2. Author: `xiezhuokui AT zju.edu.cn`, `yh_ch AT zju.edu.cn`
