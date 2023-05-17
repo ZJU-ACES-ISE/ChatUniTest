@@ -55,7 +55,7 @@ class TestTask:
         """
         if check_java_version() != 11:
             raise Exception(Fore.RED + "Wrong java version! Need: java 11")
-        if self.target_path.endswith('_f') or self.target_path.endswith('_b'):  # defects4j project
+        if self.target_path.endswith("_f") or self.target_path.endswith("_b"):  # defects4j project
             return self.start_d4j()
         else:  # general project
             return self.runner.start_single_test()
@@ -171,9 +171,11 @@ class ParseTask:
         Analyze a single project
         """
         # Create folders
+        target_path = target_path.rstrip('/')
         os.makedirs(self.output, exist_ok=True)
-        # Run analysis
-        print("Parse", target_path, " ...")
+        if target_path.endswith("_f") or target_path.endswith("_b"):
+            _, output_path = self.process_d4j_revisions(target_path, './scripts/focal_classes.json')
+            return output_path
         tot_m, output_path = self.find_classes(target_path)
         return output_path
 
@@ -182,6 +184,8 @@ class ParseTask:
         Find all classes exclude tests
         Finds test cases using @Test annotation
         """
+        # Run analysis
+        print("Parse", target_path, " ...")
         if not os.path.exists(target_path):
             return 0, 0, 0, 0
         # Test Classes
@@ -199,7 +203,7 @@ class ParseTask:
         # All Classes exclude tests
         focals = list(set(java) - set(tests))
         focals = [f for f in focals if not "src/test" in f]
-        project_name = os.path.split(target_path.rstrip('/'))[1]
+        project_name = os.path.split(target_path)[1]
         output = os.path.join(self.output, project_name)
         os.makedirs(output, exist_ok=True)
         return self.parse_all_classes(focals, project_name, output), output
@@ -224,3 +228,30 @@ class ParseTask:
         with open(out, "w") as text_file:
             data_json = json.dumps(data)
             text_file.write(data_json)
+
+    def get_class_path(self, start_path, filename):
+        for root, dirs, files in os.walk(start_path):
+            if filename in files:
+                return os.path.join(root, filename)
+
+    def process_d4j_revisions(self, repo_path, focal_classes_json):
+        """
+        Analysis defects4j revisions focal method.
+        """
+        if '_f' not in os.path.basename(repo_path):
+            return
+        # Run analysis
+        print("Parsing focal class...")
+        project_name = os.path.split(repo_path)[1]
+        with open(focal_classes_json, 'r') as f:
+            content = json.load(f)
+        for repo in content:
+            if repo['project'] == project_name:
+                classes = repo['classes']
+        focals = []
+        for _class in classes:
+            class_path = self.get_class_path(repo_path, os.path.basename(_class.rstrip('\n').replace('.', '/') + '.java'))
+            focals.append(class_path)
+
+        output = os.path.join(self.output, project_name)
+        return self.parse_all_classes(focals, project_name, output), output
