@@ -2,18 +2,6 @@
 
 ChatUniTest can automatically generate unit tests for an entire Java project in three steps.
 
-Our work has been submitted to arXiv. Check it out here: [ChatUniTest](https://arxiv.org/abs/2305.04764).
-
-```
-@misc{xie2023chatunitest,
-      title={ChatUniTest: a ChatGPT-based automated unit test generation tool}, 
-      author={Zhuokui Xie and Yinghao Chen and Chen Zhi and Shuiguang Deng and Jianwei Yin},
-      year={2023},
-      eprint={2305.04764},
-      archivePrefix={arXiv},
-      primaryClass={cs.SE}
-}
-```
 
 ![Alt Text](demo.gif)
 
@@ -138,7 +126,24 @@ The nested structure of the result directory is as follows:
 ### src
 This is the directory that stores the source code.
 
+## MISC
+
+Our work has been submitted to arXiv. Check it out here: [ChatUniTest](https://arxiv.org/abs/2305.04764).
+
+```
+@misc{xie2023chatunitest,
+      title={ChatUniTest: a ChatGPT-based automated unit test generation tool}, 
+      author={Zhuokui Xie and Yinghao Chen and Chen Zhi and Shuiguang Deng and Jianwei Yin},
+      year={2023},
+      eprint={2305.04764},
+      archivePrefix={arXiv},
+      primaryClass={cs.SE}
+}
+```
+
 ## Contact us
+
+
 If you have any questions or would like to inquire about our experimental results, please feel free to contact us via email. The email addresses of the authors are as follows:
 
 1. Corresponding author: `yh_ch@zju.edu.cn`
