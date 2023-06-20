@@ -5,10 +5,11 @@ ChatUniTest can automatically generate unit tests for an entire Java project in 
 
 ![Alt Text](demo.gif)
 
-## License
 
-The project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
+## TODO
+
+:heart_eyes: We are in the process of migrating the code to the Java and implementing a Maven plugin. Please stay tuned.
 
 ## Step 1 : installation
 First make sure you run this program in a Linux system with mysql installed.
@@ -148,3 +149,7 @@ If you have any questions or would like to inquire about our experimental result
 
 1. Corresponding author: `zjuzhichen AT zju.edu.cn`
 2. Author: `xiezhuokui AT zju.edu.cn`, `yh_ch AT zju.edu.cn`
+
+## License
+
+The project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
