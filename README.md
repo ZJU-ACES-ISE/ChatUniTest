@@ -7,9 +7,9 @@ ChatUniTest can automatically generate unit tests for an entire Java project in 
 
 
 
-## TODO
+## :bomb: News!!!
 
-:heart_eyes: We are in the process of migrating the code to the Java and implementing a Maven plugin. Please stay tuned.
+ We have migrated the code to the Java and implementing a [Maven plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin). Please have a try:heart_eyes:.
 
 ## Step 1 : installation
 First make sure you run this program in a Linux system with mysql installed.
