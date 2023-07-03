@@ -79,15 +79,22 @@ password = xxxx # Password
 Here are the steps to generate a `.so` syntax file for Java language using tree-sitter on Mac and Linux systems:
 
 1. Install `tree-sitter`. You can find the installation guide on the GitHub repository of tree-sitter (https://github.com/tree-sitter/tree-sitter).
-
-2. Get the `tree-sitter-java` project, which is the Java language plugin for tree-sitter. You can find the source code on the GitHub repository of tree-sitter-java (https://github.com/tree-sitter/tree-sitter-java).
-
-3. After getting the tree-sitter-java project, you can use the following command to generate a `.so` file:
-
 ```bash
+npm install tree-sitter-cli
+```
+2. Get the `tree-sitter-java` project, which is the Java language plugin for tree-sitter. You can find the source code on the GitHub repository of tree-sitter-java (https://github.com/tree-sitter/tree-sitter-java).
+```bash
+git clone git@github.com:tree-sitter/tree-sitter-java.git
+```
+3. After getting the tree-sitter-java project, you can use the following command to generate a `.so` file:
+```bash
+cd tree-sitter-java
 gcc -o java-grammar.so -shared src/parser.c -I./src
 ```
 4. Specify the `GRAMMAR_FILE` option in `config.ini`.
+```
+GRAMMAR_FILE = path/to/java-grammar.so
+```
 
 ## Step 3: Run
 
