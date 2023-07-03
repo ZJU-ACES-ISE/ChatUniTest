@@ -187,7 +187,7 @@ class ParseTask:
         # Run analysis
         print("Parse", target_path, " ...")
         if not os.path.exists(target_path):
-            return 0, 0, 0, 0
+            return 0, ""
         # Test Classes
         try:
             result = subprocess.check_output(r'grep -l -r @Test --include \*.java {}'.format(target_path), shell=True)
@@ -199,7 +199,7 @@ class ParseTask:
             result = subprocess.check_output(['find', target_path, '-name', '*.java'])
             java = result.decode('ascii').splitlines()
         except:
-            return 0, 0, 0, 0
+            return 0, ""
         # All Classes exclude tests
         focals = list(set(java) - set(tests))
         focals = [f for f in focals if not "src/test" in f]
@@ -225,6 +225,9 @@ class ParseTask:
         """
         Exports data as json file
         """
+        directory = os.path.dirname(out)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
         with open(out, "w") as text_file:
             data_json = json.dumps(data)
             text_file.write(data_json)
