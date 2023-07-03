@@ -12,7 +12,7 @@ ChatUniTest can automatically generate unit tests for an entire Java project in 
  We have migrated the code to the Java and implementing a [Maven plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin). Please have a try:heart_eyes:.
 
 ## Step 1 : installation
-First make sure you run this program in a Linux system with mysql installed.
+First make sure you run this program in Mac or Linux system with mysql installed.
 
 Follow the instructions below to install the project:
 
@@ -30,6 +30,7 @@ You need to alter few options:
 1. `project_dir`: compiled Java project directory.
 2. `api_keys`
 3. `host`, `port`, `database`, `user`, `password`
+4. `GRAMMAR_FILE`: tree-sitter java grammar file.
 
 The options are explained as follows:
 
@@ -75,6 +76,18 @@ database = xxxx # Database name
 user = xxxx # User
 password = xxxx # Password
 ```
+Here are the steps to generate a `.so` syntax file for Java language using tree-sitter on Mac and Linux systems:
+
+1. Install `tree-sitter`. You can find the installation guide on the GitHub repository of tree-sitter (https://github.com/tree-sitter/tree-sitter).
+
+2. Get the `tree-sitter-java` project, which is the Java language plugin for tree-sitter. You can find the source code on the GitHub repository of tree-sitter-java (https://github.com/tree-sitter/tree-sitter-java).
+
+3. After getting the tree-sitter-java project, you can use the following command to generate a `.so` file:
+
+```bash
+gcc -o java-grammar.so -shared src/parser.c -I./src
+```
+4. Specify the `GRAMMAR_FILE` option in `config.ini`.
 
 ## Step 3: Run
 
