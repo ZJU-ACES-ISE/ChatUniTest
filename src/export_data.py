@@ -41,7 +41,7 @@ def export_data():
     # Get the data from database.
     sql_query = "SELECT COUNT(*) FROM method;"
     method_n = db.select(script=sql_query)[0][0]
-    for method_id in range(method_n):
+    for method_id in range(1, method_n + 1):
         row = db.select(table_name="method",
                         conditions={"id": method_id},
                         result_cols=["project_name", "signature", "method_name", "parameters", "source_code",

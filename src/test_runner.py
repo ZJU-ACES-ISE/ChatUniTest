@@ -287,7 +287,7 @@ class TestRunner:
         deps = []
         if not self.has_made():
             # Run mvn command to generate dependencies
-            print("Making dependency for project", self.target_path)
+            # print("Making dependency for project", self.target_path)
             subprocess.run(
                 f"mvn dependency:copy-dependencies -DoutputDirectory={mvn_dependency_dir} -f {self.target_path}/pom.xml",
                 shell=True,
@@ -318,6 +318,8 @@ class TestRunner:
         """
         tests = glob.glob(self.test_path + "/**/*Test.java", recursive=True)
         target_project = os.path.basename(self.target_path.rstrip('/'))
+        _ = [os.makedirs(os.path.join(target_dir, dir_name), exist_ok=True) for dir_name in
+             ("test_cases", "compiler_output", "test_output", "report")]
         print("Copying tests to ", target_project, '...')
         for tc in tests:
             # tc should be 'pathto/project/testcase'.
@@ -325,7 +327,4 @@ class TestRunner:
             if tc_project != target_project or \
                     not os.path.exists(self.target_path):
                 continue
-            _ = [os.makedirs(os.path.join(target_dir, dir_name), exist_ok=True) for dir_name in
-                 ("test_cases", "compiler_output", "test_output", "report")]
-
             os.system(f"cp {tc} {os.path.join(target_dir, 'test_cases')}")
