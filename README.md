@@ -1,6 +1,6 @@
 # ChatUniTest: A ChatGPT-based unit test generation tool
 
-ChatUniTest can automatically generate unit tests for an entire Java project in three steps.
+ChatUniTest can automatically generate unit tests for an entire Maven project in three steps.
 
 
 ![Alt Text](demo.gif)
@@ -27,7 +27,7 @@ to ensure your data's security.
 
 You need to alter few options:
 
-1. `project_dir`: compiled Java project directory.
+1. `project_dir`: path to compiled Java project. (The path must be in English)
 2. `api_keys`
 3. `host`, `port`, `database`, `user`, `password`
 4. `GRAMMAR_FILE`: tree-sitter java grammar file.
