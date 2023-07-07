@@ -209,6 +209,7 @@ class ClassParser():
         metadata['is_constructor'] = False
         # if "constructor" in function_node.type:
         if function_node.type == 'constructor_declaration':
+            metadata['is_get_set'] = False
             metadata['is_constructor'] = True
         # Method Invocations
         ClassParser.get_method_m_deps(function_node, metadata, dependent_classes, instance_2_classes, blob)
