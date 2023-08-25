@@ -9,7 +9,7 @@ ChatUniTest can automatically generate unit tests for an entire Maven project in
 
 ## :bomb: News!!!
 
- We have migrated the code to the Java and implementing a [Maven plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin). Please have a try:heart_eyes:.
+ We have migrated the code to the Java and implementing the [Maven plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin) and [IDEA plugin](https://github.com/ZJU-ACES-ISE/ChatUniTest_IDEA_Plugin). Please have a try:heart_eyes:.
 
 ## Step 1 : installation
 First make sure you run this program in Mac or Linux system with mysql installed.
