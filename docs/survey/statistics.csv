@@ -1,0 +1,44 @@
+﻿User Statistics,,
+ Q1. Your Job Position,Subtotal,Percentage
+Software Development,4,44.44%
+Software Testing,0,0
+Project Management,0,0
+Student,5,55.60%
+Other,0,0
+,,
+Q2. Your Programming Experience (Years),Number,Percentage
+2,2,22.22%
+3,3,33.33%
+5,1,11.11%
+9,2,22.22%
+11,1,11.11%
+,,
+Q3. Are You Familiar with the Field of Software Testing?,Subtotal,Percentage
+Very Familiar,0,0
+Somewhat Familiar,5,55.56%
+Average,3,33.33%
+A Little Knowledge,1,11.11%
+Not Familiar at All,0,0
+,,
+Q4. Do You Have Experience with Using Large Models for Assisted Programming?,Subtotal,Percentage
+Yes,9,100%
+No,0,0
+,,
+ChatUniTest Use Study,,
+Q5. Which Version of ChatUniTest Do You Use?,Subtotal,Percentage
+Python Version,2,22.22%
+Maven Plugin,6,66.67%
+IntelliJ IDEA Plugin,3,33.33%
+,,
+Q6. Do You Use ChatUniTest to Assist in Writing Test Cases? ,Subtotal,Percentage
+Yes,8,88.89%
+No,1,11.11%
+,,
+Q7. Has Using ChatUniTest Helped Improve Your Efficiency in Writing Test Cases? ,Subtotal,Percentage
+Greatly Helpful,3,33.33%
+Somewhat Helpful ,6,66.67%
+Hardly Helpful ,0,0.00%
+,,
+Q9. Have you conducted secondary development based on ChatUniTest?,Subtotal,Percentage
+Yes,3,33.33%
+No,6,66.67%
