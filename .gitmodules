@@ -2,11 +2,11 @@
 	path = core
 	url = https://github.com/ZJU-ACES-ISE/chatunitest-core.git
 [submodule "chatunitest-maven-plugin"]
-	path = plugins/chatunitest-maven-plugin
+	path = impl/chatunitest-maven-plugin
 	url = https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin.git
 [submodule "chattester-maven-plugin"]
-	path = plugins/chattester-maven-plugin
+	path = impl/chattester-maven-plugin
 	url = https://github.com/ZJU-ACES-ISE/ChatTester.git
 [submodule "chatunitest-idea-plugin"]
-	path = plugins/chatunitest-idea-plugin
+	path = impl/chatunitest-idea-plugin
 	url = https://github.com/ZJU-ACES-ISE/ChatUniTest_IDEA_Plugin.git
