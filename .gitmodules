@@ -12,4 +12,4 @@
 	url = https://github.com/ZJU-ACES-ISE/ChatUniTest_IDEA_Plugin.git
 [submodule "testspark-maven-plugin"]
 	path = impl/testspark-maven-plugin
-	url = git@github.com:ZJU-ACES-ISE/TestSpark-maven-plugin.git
+	url = https://github.com/ZJU-ACES-ISE/TestSpark-maven-plugin.git
