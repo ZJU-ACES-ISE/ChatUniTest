@@ -13,3 +13,6 @@
 [submodule "testspark-maven-plugin"]
 	path = impl/testspark-maven-plugin
 	url = https://github.com/ZJU-ACES-ISE/TestSpark-maven-plugin.git
+[submodule "impl/TestSpark-maven-plugin"]
+	path = impl/TestSpark-maven-plugin
+	url = https://github.com/ZJU-ACES-ISE/TestSpark-maven-plugin.git
