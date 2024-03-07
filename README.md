@@ -18,7 +18,9 @@ capabilities of ChatUniTest.
 ### Implementations
 | Publication | Implementation | Paper Titile |
 | :---------: | :--: | :----------: |
+| Arxiv | [ChatUniTest](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/python)<br>[maven-plugin](https://github.com/ZJU-ACES-ISE/ChatUniTest_IDEA_Plugin)<br>[IDEA-plugin](https://github.com/ZJU-ACES-ISE/ChatUniTest_IDEA_Plugin)  | [ChatUniTest: a ChatGPT-based automated unit test generation tool](https://arxiv.org/abs/2305.04764), by Zhuokui Xie. |
 | Arxiv | [ChatTester](https://github.com/ZJU-ACES-ISE/ChatTester) | [No More Manual Tests? Evaluating and Improving ChatGPT for Unit Test Generation](https://arxiv.org/pdf/2305.04207.pdf), by Zhiqiang Yuan. |
+
 
 ## MISC
 
