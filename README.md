@@ -32,6 +32,14 @@ Our work has been submitted to arXiv. Check it out here: [ChatUniTest](https://a
 Please refer to the [python](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/python) branch if you want to see the original version of ChatUniTest for the paper.
 
 ```
+@inproceedings{chen2024chatunitest,
+  title={ChatUniTest: A Framework for LLM-Based Test Generation},
+  author={Chen, Yinghao and Hu, Zehao and Zhi, Chen and Han, Junxiao and Deng, Shuiguang and Yin, Jianwei},
+  booktitle={Companion Proceedings of the 32nd ACM International Conference on the Foundations of Software Engineering},
+  pages={572--576},
+  year={2024}
+}
+
 @misc{xie2023chatunitest,
       title={ChatUniTest: a ChatGPT-based automated unit test generation tool}, 
       author={Zhuokui Xie and Yinghao Chen and Chen Zhi and Shuiguang Deng and Jianwei Yin},
