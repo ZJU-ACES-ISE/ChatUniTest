@@ -23,6 +23,9 @@ capabilities of ChatUniTest.
 | Arxiv | [TestSpark](https://github.com/ZJU-ACES-ISE/TestSpark-maven-plugin) | [TestSpark: IntelliJ IDEA’s Ultimate Test Generation Companion](https://arxiv.org/pdf/2401.06580v1.pdf), by Arkadii Sapozhnikov . |
 | Arxiv | SymPrompt <br> (Under construction) | [Code-Aware Prompting: A study of Coverage Guided Test Generation in Regression Setting using LLM](https://arxiv.org/pdf/2402.00097), by Gabriel Ryan . |
 | Arxiv | TELPA  <br> (Under construction) | [Enhancing LLM-based Test Generation for Hard-to-Cover Branches via Program Analysis](https://arxiv.org/pdf/2404.04966), by Chen Yang . |
+| Arxiv | CoverUp <br> (Under construction) | [CoverUp: Coverage-Guided LLM-Based Test Generation](https://arxiv.org/abs/2403.16218), by Juan Altmayer Pizzorno . |
+| Arxiv | MuTAP <br> (Under construction) | [Effective Test Generation Using Pre-trained Large Language Models and Mutation Testing](https://arxiv.org/abs/2308.16557), by Arghavan Moradi Dakhel . |
+| Arxiv | CodaMOSA <br> (Under construction) | [CodaMosa: Escaping Coverage Plateaus in Test Generation with Pre-trained Large Language Models](https://ieeexplore.ieee.org/abstract/document/10172800), by Caroline Lemieux . |
 
 
 ## MISC
