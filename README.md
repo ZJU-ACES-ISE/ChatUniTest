@@ -28,7 +28,7 @@ capabilities of ChatUniTest.
 | ICSE'23 | CodaMOSA <br> (Under construction) | [CodaMosa: Escaping Coverage Plateaus in Test Generation with Pre-trained Large Language Models](https://ieeexplore.ieee.org/abstract/document/10172800) |
 
 
-## MISC
+## Citation
 
 Our work has been submitted to arXiv. Check it out here: [ChatUniTest](https://arxiv.org/abs/2305.04764).
 
@@ -59,3 +59,53 @@ If you have any questions, please feel free to contact us via email. The email a
 
 1. Corresponding author: `zjuzhichen AT zju.edu.cn`
 2. Author: `yh_ch AT zju.edu.cn`, `xiezhuokui AT zju.edu.cn`
+
+## Paper list 
+
+A curation of awesome papers about LLM for unit testing.
+
+**2024**
+
+- TestBench: Evaluating Class-Level Test Case Generation Capability of Large Language Models
+- Retrieval-Augmented Test Generation: How Far Are We?
+- Rethinking the Influence of Source Code on Test Case Generation
+- Leveraging Large Language Models for Enhancing the Understandability of Generated Unit Tests
+- HITS: High-coverage LLM-based Unit Test Generation via Method Slicing
+- A System for Automated Unit Test Generation Using Large Language Models and Assessment of Generated Test Suites
+- TestART: Improving LLM-based Unit Test via Co-evolution of Automated Generation and Repair Iteration
+- An LLM-based Readability Measurement for Unit Tests' Context-aware Inputs
+- Chat-like Asserts Prediction with the Support of Large Language Model
+- Optimizing Search-Based Unit Test Generation with Large Language Models: An Empirical Study
+- LIReDroid: LLM-Enhanced Test Case Generation for Static Sensitive Behavior Replication
+- Harnessing the Power of LLMs: Automating Unit Test Generation for High-Performance Computing
+- Augmenting LLMs to Repair Obsolete Test Cases with Static Collector and Neural Reranker
+- Effective test generation using pre-trained Large Language Models and mutation testing
+- An Empirical Study of Unit Test Generation with Large Language Models
+- CasModaTest: A Cascaded and Model-agnostic Self-directed Framework for Unit Test Generation
+- Enhancing LLM-based Test Generation for Hard-to-Cover Branches via Program Analysis
+- CoverUp: Coverage-Guided LLM-Based Test Generation
+- Enhancing Large Language Models for Text-to-Testcase Generation
+- Automated Unit Test Improvement using Large Language Models at Meta
+- Code-Aware Prompting: A study of Coverage Guided Test Generation in Regression Setting using LLM
+- Automated Test Case Repair Using Language Models
+- An Empirical Evaluation of Using Large Language Models for Automated Unit Test Generation
+- Automatic Generation of Test Cases based on Bug Reports: a Feasibility Study with Large Language Models
+- Using Large Language Models to Generate JUnit Tests: An Empirical Study
+- ChatGPT vs SBST: A Comparative Assessment of Unit Test Suite Generation
+- TestSpark: IntelliJ IDEA's Ultimate Test Generation Companion
+- Towards Understanding the Effectiveness of Large Language Models on Directed Test Input Generation
+
+**2023**
+
+- Automatic Generation of Test Cases based on Bug Reports: a Feasibility Study with Large Language Models
+- Prompting Code Interpreter to Write Better Unit Tests on Quixbugs Functions
+- Automated Test Case Generation Using Code Models and Domain Adaptation
+- ChatGPT vs SBST: A Comparative Assessment of Unit Test Suite Generation
+- No More Manual Tests? Evaluating and Improving ChatGPT for Unit Test Generation
+- CodaMosa: Escaping Coverage Plateaus in Test Generation with Pre-trained Large Language Models
+- Exploring the Effectiveness of Large Language Models in Generating Unit Tests
+- Adaptive Test Generation Using a Large Language Model
+
+
+
+
