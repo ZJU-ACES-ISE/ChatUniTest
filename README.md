@@ -22,17 +22,14 @@ capabilities of ChatUniTest.
 | FSE'24 | [ChatTester](https://github.com/ZJU-ACES-ISE/ChatTester) | [Evaluating and Improving ChatGPT for Unit Test Generation](https://dl.acm.org/doi/abs/10.1145/3660783) |
 | ICSE'24 Demo | [TestSpark](https://github.com/ZJU-ACES-ISE/TestSpark-maven-plugin) | [TestSpark: IntelliJ IDEA’s Ultimate Test Generation Companion](https://dl.acm.org/doi/abs/10.1145/3639478.3640024) |
 | FSE'24 | SymPrompt <br> (Under construction) | [Code-Aware Prompting: A study of Coverage Guided Test Generation in Regression Setting using LLM](https://dl.acm.org/doi/abs/10.1145/3643769) |
-| Arxiv | TELPA  <br> (Under construction) | [Enhancing LLM-based Test Generation for Hard-to-Cover Branches via Program Analysis](https://arxiv.org/pdf/2404.04966) |
-| Arxiv | CoverUp <br> (Under construction) | [CoverUp: Coverage-Guided LLM-Based Test Generation](https://arxiv.org/abs/2403.16218) |
+| ASE'24 | HITS <br> (Under construction) | [HITS: High-coverage LLM-based Unit Test Generation via Method Slicing](https://dl.acm.org/doi/abs/10.1145/3691620.3695501) |
 | IST'24 | MuTAP <br> (Under construction) | [Effective Test Generation Using Pre-trained Large Language Models and Mutation Testing](https://www.sciencedirect.com/science/article/abs/pii/S0950584924000739) |
+| Arxiv | TELPA  <br> (Under construction) | [Enhancing LLM-based Test Generation for Hard-to-Cover Branches via Program Analysis](https://arxiv.org/abs/2404.04966) |
+| Arxiv | CoverUp <br> (Under construction) | [CoverUp: Coverage-Guided LLM-Based Test Generation](https://arxiv.org/abs/2403.16218) |
 | ICSE'23 | CodaMOSA <br> (Under construction) | [CodaMosa: Escaping Coverage Plateaus in Test Generation with Pre-trained Large Language Models](https://ieeexplore.ieee.org/abstract/document/10172800) |
 
 
 ## Citation
-
-Our work has been submitted to arXiv. Check it out here: [ChatUniTest](https://arxiv.org/abs/2305.04764).
-
-Please refer to the [python](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/python) branch if you want to see the original version of ChatUniTest for the paper.
 
 ```
 @inproceedings{chen2024chatunitest,
@@ -42,6 +39,8 @@ Please refer to the [python](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/py
   pages={572--576},
   year={2024}
 }
+
+Please refer to the [python](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/python) branch if you want to see the original version of ChatUniTest for the paper.
 
 @misc{xie2023chatunitest,
       title={ChatUniTest: a ChatGPT-based automated unit test generation tool}, 
@@ -58,7 +57,7 @@ Please refer to the [python](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/py
 If you have any questions, please feel free to contact us via email. The email addresses of the authors are as follows:
 
 1. Corresponding author: `zjuzhichen AT zju.edu.cn`
-2. Author: `yh_ch AT zju.edu.cn`, `xiezhuokui AT zju.edu.cn`
+2. Author: `yh_ch AT zju.edu.cn`
 
 ## Paper list 
 
