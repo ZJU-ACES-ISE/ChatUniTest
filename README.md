@@ -27,6 +27,7 @@ capabilities of ChatUniTest.
 | Arxiv | TELPA  <br> (Under construction) | [Enhancing LLM-based Test Generation for Hard-to-Cover Branches via Program Analysis](https://arxiv.org/abs/2404.04966) |
 | Arxiv | CoverUp <br> (Under construction) | [CoverUp: Coverage-Guided LLM-Based Test Generation](https://arxiv.org/abs/2403.16218) |
 | ICSE'23 | CodaMOSA <br> (Under construction) | [CodaMosa: Escaping Coverage Plateaus in Test Generation with Pre-trained Large Language Models](https://ieeexplore.ieee.org/abstract/document/10172800) |
+|TSE'23 | TestPilot <br> (Under construction) | [An Empirical Evaluation of Using Large Language Models for Automated Unit Test Generation](https://ieeexplore.ieee.org/document/10329992) |
 
 
 ## Citation
@@ -39,9 +40,11 @@ capabilities of ChatUniTest.
   pages={572--576},
   year={2024}
 }
+```
 
 Please refer to the [python](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/python) branch if you want to see the original version of ChatUniTest for the paper.
 
+```
 @misc{xie2023chatunitest,
       title={ChatUniTest: a ChatGPT-based automated unit test generation tool}, 
       author={Zhuokui Xie and Yinghao Chen and Chen Zhi and Shuiguang Deng and Jianwei Yin},
