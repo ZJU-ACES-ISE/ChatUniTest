@@ -45,6 +45,14 @@ capabilities of ChatUniTest.
 Please refer to the [python](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/python) branch if you want to see the original version of ChatUniTest for the paper.
 
 ```
+@inproceedings{chen2024chatunitest,
+  title={Chatunitest: A framework for llm-based test generation},
+  author={Chen, Yinghao and Hu, Zehao and Zhi, Chen and Han, Junxiao and Deng, Shuiguang and Yin, Jianwei},
+  booktitle={Companion Proceedings of the 32nd ACM International Conference on the Foundations of Software Engineering},
+  pages={572--576},
+  year={2024}
+}
+
 @misc{xie2023chatunitest,
       title={ChatUniTest: a ChatGPT-based automated unit test generation tool}, 
       author={Zhuokui Xie and Yinghao Chen and Chen Zhi and Shuiguang Deng and Jianwei Yin},
@@ -59,8 +67,8 @@ Please refer to the [python](https://github.com/ZJU-ACES-ISE/ChatUniTest/tree/py
 
 If you have any questions, please feel free to contact us via email. The email addresses of the authors are as follows:
 
-1. Corresponding author: `zjuzhichen AT zju.edu.cn`
-2. Author: `yh_ch AT zju.edu.cn`
+Corresponding author: `zjuzhichen AT zju.edu.cn`
+
 
 ## Paper list 
 
