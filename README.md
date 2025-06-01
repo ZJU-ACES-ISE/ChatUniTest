@@ -25,7 +25,7 @@ capabilities of ChatUniTest.
 | ASE'24 | [maven-plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin)<br> Run with `HITS` phaseType | [HITS: High-coverage LLM-based Unit Test Generation via Method Slicing](https://dl.acm.org/doi/abs/10.1145/3691620.3695501) |
 | IST'24 | [maven-plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin)<br> Run with `MUTAP` phaseType | [Effective Test Generation Using Pre-trained Large Language Models and Mutation Testing](https://www.sciencedirect.com/science/article/abs/pii/S0950584924000739) |
 | Arxiv | [maven-plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin)<br> Run with `TELPA` phaseType | [Enhancing LLM-based Test Generation for Hard-to-Cover Branches via Program Analysis](https://arxiv.org/abs/2404.04966) |
-| Arxiv | [maven-plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin)<br> Run with `COVERUP` phaseType | [CoverUp: Coverage-Guided LLM-Based Test Generation](https://arxiv.org/abs/2403.16218) |
+| FSE'25 | [maven-plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin)<br> Run with `COVERUP` phaseType | [CoverUp: Coverage-Guided LLM-Based Test Generation](https://arxiv.org/abs/2403.16218) |
 | TSE'23 | [maven-plugin](https://github.com/ZJU-ACES-ISE/chatunitest-maven-plugin)<br> Run with `TESTPILOT` phaseType | [An Empirical Evaluation of Using Large Language Models for Automated Unit Test Generation](https://ieeexplore.ieee.org/document/10329992) |
 | ICSE'23 | CodaMOSA <br> (Under construction) | [CodaMosa: Escaping Coverage Plateaus in Test Generation with Pre-trained Large Language Models](https://ieeexplore.ieee.org/abstract/document/10172800) |
 
